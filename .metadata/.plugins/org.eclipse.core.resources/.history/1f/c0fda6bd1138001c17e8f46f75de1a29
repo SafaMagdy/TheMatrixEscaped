@@ -1,0 +1,47 @@
+
+public class Grid {
+	
+	//create an object to contain the x and y of busy cells
+	//in order to give a set of random numbers sufficient to the cells create a method 
+	//with loop that randomizes the numbers l7ad ama nwsl l set tnf3
+	
+	public static String genGrid() {
+		String grid = "";
+		//should be randomized
+		int m = 3;
+		int n = 3;
+		int c = 1;
+		int neoX = 0;
+		int neoY = 0;
+		grid = m + "," + n +";" + c + ";Neo" + neoX + ",Neo" + neoY + ";";
+		int teleX = 1;
+		int teleY = 1;
+		grid += "Telephone" + teleX + ",Telephone" + teleY;
+		int agentNumber = 1;
+		for(int i = 0; i < agentNumber; i++) {
+			int agentX = 0;
+			int agentY = 1;
+			grid += ";Agent" + agentX + ",Agent" + agentY;
+		}
+		int pillNumber = 1;
+		for(int i = 0; i < pillNumber; i++) {
+			int pillX = 1;
+			int pillY = 2;
+			grid += ";Pill" + pillX + ",Pill" + pillY;
+		}
+		int padNumber = 1;
+		for(int i = 0; i < padNumber; i++) {
+			int spadX = 0;
+			int spadY = 2;
+			int fpadX = 2;
+			int fpadY = 0;
+			grid += ";StartPad" + spadX + ",StartPad" + spadY + ",StartPad" + fpadX + ",StartPad" + fpadY;
+		}
+		return grid;
+	}
+
+	public static void main(String[] args) {
+		
+		System.out.println(genGrid());
+	}
+}

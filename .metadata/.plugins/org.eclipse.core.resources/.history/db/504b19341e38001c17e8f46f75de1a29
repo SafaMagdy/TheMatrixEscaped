@@ -1,0 +1,22 @@
+package code;
+import java.util.ArrayList;
+
+import code.Location;
+
+public class TreeNode {
+	
+	public ArrayList<Location> prevCells;
+	public Location myLoc;
+	public int hostagesNum;
+	public int mutantHostagesNum;
+	public int neoHealth;
+	public String grid;
+	
+	public TreeNode() {
+		
+		this.prevCells = new ArrayList<Location>();
+		
+	}
+	
+
+}

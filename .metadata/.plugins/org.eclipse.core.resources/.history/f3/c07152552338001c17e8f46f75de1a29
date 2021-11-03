@@ -1,0 +1,34 @@
+package code;
+import java.util.ArrayList;
+
+import code.Location;
+
+public class TreeNode {
+	
+	public ArrayList<Location> prevCells;
+	public Location myLoc;
+	public int hostagesNum;
+	public int mutantHostagesNum;
+	public int neoHealth;
+	public String grid;
+	
+	public TreeNode(ArrayList<Location> prevCells, Location myLoc, int hNum, int mHNum, int neoH, String grid) {
+		
+		this.prevCells = prevCells;
+		this.myLoc = myLoc;
+		this.hostagesNum = hNum;
+		this.mutantHostagesNum = mHNum;
+		this.neoHealth = neoH;
+		this.grid = grid;		
+		
+	}
+	
+	public String whatInCell(int x, int y) {
+		//this method tells what is in the cell with location x and y
+		String result = "";
+		
+		return result;
+	}
+	
+
+}

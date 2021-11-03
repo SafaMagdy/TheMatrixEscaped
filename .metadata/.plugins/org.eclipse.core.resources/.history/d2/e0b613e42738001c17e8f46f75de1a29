@@ -1,0 +1,86 @@
+package code;
+import java.util.ArrayList;
+
+import code.Location;
+
+public class TreeNode {
+	
+	public ArrayList<Location> prevCells;
+	public Location myLoc;
+	public int hostagesNum;
+	public int mutantHostagesNum;
+	public int neoHealth;
+	public String grid;
+	
+	public TreeNode(ArrayList<Location> prevCells, Location myLoc, int hNum, int mHNum, int neoH, String grid) {
+		
+		this.prevCells = prevCells;
+		this.myLoc = myLoc;
+		this.hostagesNum = hNum;
+		this.mutantHostagesNum = mHNum;
+		this.neoHealth = neoH;
+		this.grid = grid;		
+		
+	}
+	public static void printArr (String[] arr)
+	{
+		for ( int i = 0 ; i < arr.length; i++) {
+			System.out.print(arr[i]);
+		}
+	}
+	public static String whatInCell(int x, int y, String grid) {
+		//this method tells what is in the cell with location x and y
+		String result = "";
+		String[] splitted = grid.split(";");
+		boolean found = false;
+		String[] telephone = splitted[3].split(",");
+		String[] agents = splitted[4].split(",");
+		String[] pills = splitted[5].split(",");
+		String[] pads = splitted[6].split(",");
+		String[] hostages = splitted[7].split(",");
+		System.out.println(telephone[0] + "tele");
+		System.out.println(agents[0] + "agents");
+		System.out.println(pills[0] + "pills");
+		System.out.println(pads[0] + "pads");
+		System.out.println(hostages[0] + "hostages");
+		if(x == Integer.parseInt(telephone[0]) && y == Integer.parseInt(telephone[1])) {
+			result = "telephone";
+			//found = true;
+			return result;
+		}
+		for (int i = 0 ; i < agents.length/2; i+=2) {
+			if(x == Integer.parseInt(agents[i]) && y == Integer.parseInt(agents[i+1])) {
+				result = "agent";
+				return result;
+			}
+		}
+		for (int i = 0 ; i < pills.length/2; i+=2) {
+			if(x == Integer.parseInt(pills[i]) && y == Integer.parseInt(pills[i+1])) {
+				result = "pill";
+				return result;
+			}
+		}
+		for (int i = 0 ; i < pads.length/2; i+=2) {
+			if(x == Integer.parseInt(pads[i]) && y == Integer.parseInt(pads[i+1])) {
+				result = "pad";
+				return result;
+			}
+		}
+		for (int i = 0 ; i < hostages.length/3; i+=3) {
+			System.out.println(hostages[i]);
+			if(x == Integer.parseInt(hostages[i]) && y == Integer.parseInt(hostages[i+1])) {
+				result = "hostage";
+				return result;
+			}
+		}
+		return result;
+	}
+	
+	public static void main(String[] args) {
+		
+		System.out.println(whatInCell(2,1, "3,3;1;0,0;1,1;0,1;1,2;0,2,2,0;1,0,0,2,1,50,2,2,90"));
+	}
+	
+	
+
+}

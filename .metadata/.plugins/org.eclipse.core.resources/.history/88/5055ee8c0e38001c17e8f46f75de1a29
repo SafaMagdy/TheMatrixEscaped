@@ -1,0 +1,13 @@
+
+public class Grid {
+	
+	public static String genGrid() {
+		String grid = "";
+		
+		return grid;
+	}
+
+	public static void main(String[] args) {
+		System.out.println("jhfljkhdkas");
+	}
+}
