@@ -1,0 +1,15 @@
+package code;
+import code.Location;
+
+//this object represents the possible nodes that can be created 
+//this is to avoid creating all the nodes before needing to expand them
+//this is to store the needed information to know when we change the path
+
+public class PreNode {
+	
+	//the action that should be taken to create the node
+	public String action;
+	
+	public Location affectedCell;
+
+}
