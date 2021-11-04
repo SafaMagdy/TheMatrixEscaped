@@ -13,6 +13,9 @@ public class TreeNode {
 	public int neoDamage;
 	//the updated string according to the path that led to the current node
 	public String grid;
+	//keeps track of kills and deaths till now
+	public int kills;
+	public int deaths;
 	//array containing hostages and their locations
 	//this array is created in each node using the given grid
 	public ArrayList<String> hostages;
@@ -22,12 +25,15 @@ public class TreeNode {
 	
 	
 	
-	public TreeNode(ArrayList<TreeNode> prevNodes, Location myLoc, int neoD, String grid, ArrayList<String> hostages, ArrayList<String> mutantHostages) {
+	public TreeNode(ArrayList<TreeNode> prevNodes, Location myLoc, int neoD, String grid, int kills, int deaths, 
+			ArrayList<String> hostages, ArrayList<String> mutantHostages) {
 		
 		this.prevNodes = prevNodes;
 		this.myLoc = myLoc;
 		this.neoDamage = neoD;
-		this.grid = grid;		
+		this.grid = grid;
+		this.kills = kills;
+		this.deaths = deaths;
 		this.hostages = hostages;
 		this.mutantHostages = mutantHostages;
 	}
@@ -42,7 +48,17 @@ public class TreeNode {
 		System.out.println(" ");
 	}
 	
-
+	
+	//goal test
+	public boolean isItGoal() {
+		
+		boolean goal = false;
+		if (this.mutantHostages.size() == 0 && this.hostages.size() == 0) {
+			goal = true;
+		}
+		return goal;
+		
+	}
 	
 
 	

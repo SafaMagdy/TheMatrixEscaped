@@ -15,9 +15,7 @@ public class Matrix {
 	
 	//gen grid
 	//solve
-	//method to detect possible actions and insert in queue
 	//update
-	//method to check goal test
 	
 
 }
