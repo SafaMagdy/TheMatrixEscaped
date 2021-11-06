@@ -17,36 +17,16 @@ public class Matrix {
 		int m = rand.nextInt((15 - 5) + 1) + 5;
 		int n = rand.nextInt((15 - 5) + 1) + 5;
 		int c = rand.nextInt((4 - 1) + 1) + 1;
-		int neoX = rand.nextInt((15 - 5) + 1) + 5;
-		int neoY = rand.nextInt((15 - 5) + 1) + 5;
-		Location neo = new Location(neoX, neoY);
-		busyLocations.add(neo);
-		grid = m + "," + n + ";" + c + ";" + neoX + "," + neoY + ";";
-		boolean busy = true;
-		int teleX = -1;
-		int teleY = -1;
-		while(busy == true) {
-			//call the is busy method to know if the cell is busy and keep generating random variables till false
-			teleX = rand.nextInt((15 - 5) + 1) + 5;
-			teleY = rand.nextInt((15 - 5) + 1) + 5;
-			Location tele = new Location(teleX, teleY);
-			if (isBusy(busyLocations, tele)) {
-				continue;
-			}else {
-				busyLocations.add(tele);
-				busy = false;
-				break;
-			}
-		}
-		//reset busy to be used later
-		busy = true;
-		grid += teleX + "," + teleY;
 		System.out.println(m + " " + n + " " + c);
-		System.out.println(neoX + " " + neoY);
-		System.out.println(teleX + " " + teleY);
 		// should be randomized
 		
 		/*
+		int neoX = 0;
+		int neoY = 0;
+		grid = m + "," + n + ";" + c + ";" + neoX + "," + neoY + ";";
+		int teleX = 1;
+		int teleY = 1;
+		grid += teleX + "," + teleY;
 		int agentNumber = 1;
 		for (int i = 0; i < agentNumber; i++) {
 			int agentX = 0;
@@ -90,20 +70,6 @@ public class Matrix {
 		}
 		*/
 		return grid;
-	}
-	
-	
-	//this method check whether or not the cell is empty in order to avoid overlap in cells
-	public static boolean isBusy(ArrayList<Location> busyLocations, Location loc) {
-		boolean busy = false;
-		for (int i = 0; i < busyLocations.size(); i++) {
-			if (busyLocations.get(i).x == loc.x && busyLocations.get(i).y == loc.y) {
-				busy = true;
-				break;
-			}
-		}
-		return busy;
-		
 	}
 	
 	public static void main(String[] args) {

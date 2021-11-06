@@ -47,6 +47,8 @@ public class Matrix {
 		// should be randomized
 		
 		/*
+		
+		
 		int agentNumber = 1;
 		for (int i = 0; i < agentNumber; i++) {
 			int agentX = 0;

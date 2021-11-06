@@ -22,31 +22,15 @@ public class Matrix {
 		Location neo = new Location(neoX, neoY);
 		busyLocations.add(neo);
 		grid = m + "," + n + ";" + c + ";" + neoX + "," + neoY + ";";
-		boolean busy = true;
-		int teleX = -1;
-		int teleY = -1;
-		while(busy == true) {
-			//call the is busy method to know if the cell is busy and keep generating random variables till false
-			teleX = rand.nextInt((15 - 5) + 1) + 5;
-			teleY = rand.nextInt((15 - 5) + 1) + 5;
-			Location tele = new Location(teleX, teleY);
-			if (isBusy(busyLocations, tele)) {
-				continue;
-			}else {
-				busyLocations.add(tele);
-				busy = false;
-				break;
-			}
-		}
-		//reset busy to be used later
-		busy = true;
-		grid += teleX + "," + teleY;
+		boolean busy = false;
 		System.out.println(m + " " + n + " " + c);
 		System.out.println(neoX + " " + neoY);
-		System.out.println(teleX + " " + teleY);
 		// should be randomized
 		
 		/*
+		int teleX = 1;
+		int teleY = 1;
+		grid += teleX + "," + teleY;
 		int agentNumber = 1;
 		for (int i = 0; i < agentNumber; i++) {
 			int agentX = 0;
@@ -99,7 +83,7 @@ public class Matrix {
 		for (int i = 0; i < busyLocations.size(); i++) {
 			if (busyLocations.get(i).x == loc.x && busyLocations.get(i).y == loc.y) {
 				busy = true;
-				break;
+				return;
 			}
 		}
 		return busy;
