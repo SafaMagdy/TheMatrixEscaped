@@ -197,7 +197,6 @@ public class Matrix {
 		if (busyLocations.contains(loc)) {
 			busy = true;
 		}
-		//System.out.println(busy);
 		/*
 		 * for (int i = 0; i < busyLocations.size(); i++) { if (busyLocations.get(i).x
 		 * == loc.x && busyLocations.get(i).y == loc.y) { busy = true; break; } }
@@ -207,6 +206,12 @@ public class Matrix {
 	}
 
 	public static void main(String[] args) {
+		ArrayList<Location> test = new ArrayList<Location>();
+		Location loc = new Location(1, 2);
+		Location loc2 = new Location(1, 2);
+		Location loc3 = new Location(2, 2);
+		test.add(loc);
+		test.add(loc2);
 		// System.out.println(test.contains(loc3));
 
 		genGrid();

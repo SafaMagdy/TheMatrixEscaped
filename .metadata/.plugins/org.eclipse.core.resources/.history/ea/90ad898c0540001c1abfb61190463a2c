@@ -158,6 +158,7 @@ public class Matrix {
 			while (padsNum > (totalCells - busyLocations.size()) || padsNum % 2 != 0) {
 				// try again
 				rand.nextInt((totalCells - busyLocations.size()) + 1);
+				System.out.println(grid);
 			}
 			// assign them to cells and add them to the grid string
 			for (int i = 0; i < padsNum; i++) {
@@ -197,7 +198,6 @@ public class Matrix {
 		if (busyLocations.contains(loc)) {
 			busy = true;
 		}
-		//System.out.println(busy);
 		/*
 		 * for (int i = 0; i < busyLocations.size(); i++) { if (busyLocations.get(i).x
 		 * == loc.x && busyLocations.get(i).y == loc.y) { busy = true; break; } }

@@ -147,6 +147,7 @@ public class Matrix {
 			grid += ";";
 		}
 
+		System.out.println(grid);
 		// check if full
 		// subtract 1 because the pads come in pairs
 		if (busyLocations.size() < totalCells - 1) {
@@ -197,7 +198,6 @@ public class Matrix {
 		if (busyLocations.contains(loc)) {
 			busy = true;
 		}
-		//System.out.println(busy);
 		/*
 		 * for (int i = 0; i < busyLocations.size(); i++) { if (busyLocations.get(i).x
 		 * == loc.x && busyLocations.get(i).y == loc.y) { busy = true; break; } }
