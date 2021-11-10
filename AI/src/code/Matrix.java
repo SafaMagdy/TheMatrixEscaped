@@ -33,12 +33,15 @@ public class Matrix {
 		Location tele = new Location(teleX, teleY);
 		while (isBusy(busyLocations, tele)) {
 			teleX = rand.nextInt((n - 5) + 1) + 5;
+			//System.out.println(teleX);
 			teleY = rand.nextInt((m - 5) + 1) + 5;
-			tele = new Location(teleX, teleY);
+			tele.x = teleX;
+			tele.y = teleY;
+			//tele = new Location(teleX, teleY);
 		}
+		System.out.println("out of loop 1");
 		// if it comes out of the loop then it is not busy
 		busyLocations.add(tele);
-
 		grid += teleX + "," + teleY + ";";
 
 		int hostagesNum = 0;
@@ -65,9 +68,12 @@ public class Matrix {
 				hosX = rand.nextInt((n - 5) + 1) + 5;
 				hosY = rand.nextInt((m - 5) + 1) + 5;
 				damage = rand.nextInt((99 - 1) + 1) + 1;
-				hos = new Location(hosX, hosY);
+				//hos = new Location(hosX, hosY);
+				hos.x = hosX;
+				hos.y = hosY;
 			}
 			busyLocations.add(hos);
+			System.out.println("out of loop 2");
 			// append to string
 			hostages += hosX + "," + hosY + "," + damage;
 			// to add the comma after each hostage
@@ -97,10 +103,13 @@ public class Matrix {
 					// try again
 					ageX = rand.nextInt((n - 5) + 1) + 5;
 					ageY = rand.nextInt((m - 5) + 1) + 5;
-					agent = new Location(ageX, ageY);
+					//agent = new Location(ageX, ageY);
+					agent.x = ageX;
+					agent.y = ageY;
 
 				}
 				busyLocations.add(agent);
+				System.out.println("out of loop 3");
 				// append to string
 				grid += ageX + "," + ageY;
 				// to add the comma after each agent
@@ -108,10 +117,12 @@ public class Matrix {
 					grid += ",";
 				}
 			}
+			System.out.println("out of loop 4");
+			
 			grid += ';';
 		}
-
 		// check if full
+		//System.out.println(isBusy(busyLocations, tele));
 		if (busyLocations.size() < totalCells) {
 			// generate the pills
 			int pillsNum = 0;
@@ -132,10 +143,13 @@ public class Matrix {
 					// try again
 					pillX = rand.nextInt((n - 5) + 1) + 5;
 					pillY = rand.nextInt((m - 5) + 1) + 5;
-					pill = new Location(pillX, pillY);
+					//pill = new Location(pillX, pillY);
+					pill.x = pillX;
+					pill.y = pillY;
 
 				}
 				busyLocations.add(pill);
+				System.out.println("out of loop 5");
 				// append to string
 				grid += pillX + "," + pillY;
 				// to add the comma after each pill
@@ -143,6 +157,7 @@ public class Matrix {
 					grid += ",";
 				}
 			}
+			System.out.println("out of loop 6");
 
 			grid += ";";
 		}
@@ -169,10 +184,13 @@ public class Matrix {
 					// try again
 					padX = rand.nextInt((n - 5) + 1) + 5;
 					padY = rand.nextInt((m - 5) + 1) + 5;
-					pad = new Location(padX, padY);
+					pad.x = padX;
+					pad.y = padY;
+					//pad = new Location(padX, padY);
 
 				}
 				busyLocations.add(pad);
+				System.out.println("out of loop 7");
 				// append to string
 				grid += padX + "," + padY;
 				// to add the comma after each pad
@@ -182,6 +200,7 @@ public class Matrix {
 			}
 
 			grid += ";";
+			System.out.println("out of loop 8");
 		}
 		
 		grid += hostages;
@@ -207,7 +226,6 @@ public class Matrix {
 	}
 
 	public static void main(String[] args) {
-		// System.out.println(test.contains(loc3));
 
 		genGrid();
 	}
