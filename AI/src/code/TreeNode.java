@@ -44,25 +44,5 @@ public class TreeNode {
 		
 	}
 	
-	
-	//method to print the content of any array
-	public static void printArr (String[] arr)
-	{
-		for ( int i = 0 ; i < arr.length; i++) {
-			System.out.print(arr[i]);
-		}
-		System.out.println(" ");
-	}
-	
-
-	
-
-	
-	public static void main(String[] args) {
-		
-		//System.out.println(whatInCell(2,1, "3,3;1;0,0;1,1;0,1;1,2;0,2,2,0;1,0,0,2,1,50,2,2,90"));
-	}
-	
-	
 
 }

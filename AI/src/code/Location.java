@@ -16,9 +16,6 @@ public class Location{
 		Location loc = (Location) locOb;
 		if (loc.x == this.x && loc.y == this.y) {
 			eq = true;
-			//System.out.println(loc.x + " " + this.x);
-			
-			//System.out.println("here");
 		}else {
 			eq = false;
 		}

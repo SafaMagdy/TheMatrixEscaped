@@ -1,8 +1,6 @@
 package code;
 import code.Location;
 
-//Safa: I don't think this class is necessary 
-
 //this object represents the possible nodes that can be created 
 //this is to avoid creating all the nodes before needing to expand them
 //this is to store the needed information to know when we change the path
@@ -11,6 +9,7 @@ import code.Location;
 public class PreNode {
 	
 	//the action that should be taken to create the node
+	//example: "Up"/"Kill"/"Carry"
 	public String action;
 	//the location of the affected cell
 	//this can be either the location of the next cell to move to

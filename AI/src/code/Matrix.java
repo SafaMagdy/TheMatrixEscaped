@@ -12,10 +12,7 @@ public class Matrix extends GeneralSearch{
 	public Matrix () {
 		super();
 	}
-
-	// create a class for action methods?
-	// use array list instead of queue
-
+	
 	/*
 	public static String genGrid() {
 		String grid = "";
@@ -230,9 +227,10 @@ public class Matrix extends GeneralSearch{
 	}
 	*/
 	
+	
+	//temporary method just for testing
 	public static String genGrid() {
 		String grid = "";
-		// should be randomized
 		int m = 3;
 		int n = 3;
 		int c = 1;
@@ -294,11 +292,6 @@ public class Matrix extends GeneralSearch{
 		if (busyLocations.contains(loc)) {
 			busy = true;
 		}
-		//System.out.println(busy);
-		/*
-		 * for (int i = 0; i < busyLocations.size(); i++) { if (busyLocations.get(i).x
-		 * == loc.x && busyLocations.get(i).y == loc.y) { busy = true; break; } }
-		 */
 		return busy;
 
 	}
@@ -306,28 +299,23 @@ public class Matrix extends GeneralSearch{
 	
 	public static String solve(String grid, String strategy, boolean visualize) {
 		String result = "";
-		generalSearch(grid, "DF");
+		result = generalSearch(grid, "DF");
 		return result;
 	}
 	
 	//method to print the content of any array
-		public static void printArr (ArrayList<String> arr)
-		{
-			for ( int i = 0 ; i < arr.size(); i++) {
-				System.out.println(arr.get(i));
-			}
-			System.out.println(" ");
+	public static void printArr(ArrayList<String> arr) {
+		for (int i = 0; i < arr.size(); i++) {
+			System.out.println(arr.get(i));
 		}
+		System.out.println(" ");
+	}
 
 	public static void main(String[] args) {
 
 		String grid = genGrid();
 		System.out.println(grid);
-		solve(grid, "DF", false);
+		System.out.println(solve(grid, "DF", false));
 	}
-
-	// gen grid
-	// solve
-	// update
 
 }

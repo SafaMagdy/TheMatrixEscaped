@@ -13,13 +13,19 @@ public abstract class GeneralSearch {
 
 	public static String generalSearch(String grid, String strategy) {
 		String result = "";
+		//initialize everything as this is the start
 		ArrayList<TreeNode> prevNodes = new ArrayList<TreeNode>();
 		ArrayList<PreNode> preNodes = new ArrayList<PreNode>();
 		String[] splitted = grid.split(";");
+		//get Neo's starting position
 		String[] preNeo = splitted[2].split(",");
-		ArrayList<Integer> carried = new ArrayList<Integer>();
 		Location neo = new Location(Integer.parseInt(preNeo[0]), Integer.parseInt(preNeo[1]));
+		//array to store the damages of the carried hostages
+		//also used to keep track of the number of carried hostages
+		ArrayList<Integer> carried = new ArrayList<Integer>();
+		
 		// create initial starting node
+		// reminder: cost
 		TreeNode start = new TreeNode(null, prevNodes, neo, 0, grid, 0, 0, "Start", 0, 0, carried);
 		PreNode startPre = new PreNode("Start", neo, start, 0);
 
@@ -32,13 +38,14 @@ public abstract class GeneralSearch {
 			queue = new DFQueue();
 			break;
 		default:
+			//temporary
 			queue = new DFQueue();
 			break;
 		}
 
-		// get the possible actions
+		// get the possible actions for the starting node
 		ArrayList<String> possibleActions = getPossibleActions(neo, grid);
-		//printArr(possibleActions);
+		printArr(possibleActions);
 		for (int i = 0; i < possibleActions.size(); i++) {
 			String[] pa = possibleActions.get(i).split(",");
 			Location affected = new Location(Integer.parseInt(pa[1]), Integer.parseInt(pa[2]));
@@ -46,14 +53,16 @@ public abstract class GeneralSearch {
 			queue.enqueue(pn);
 		}
 
-		// adding initial state
+		queue.display();
 
 		boolean failed = false;
+		String finalGrid = "";
 
-		
 		while (!queue.queue.isEmpty()) {
-			//boolean con = false;
+			System.out.println("habd2 ml awl");
 			PreNode frontPreNode = queue.dequeue();
+			boolean repeated = false;
+			/*
 			for (int i = 0 ; i < prevNodes.size(); i++) {
 				if(frontPreNode.prevNode.myLoc.x == prevNodes.get(i).myLoc.x && 
 						frontPreNode.prevNode.myLoc.y == prevNodes.get(i).myLoc.y) {
@@ -62,11 +71,27 @@ public abstract class GeneralSearch {
 					}
 				}
 			}
-		
-			// check if goal
+			*/
 			TreeNode frontTreeNode = update(
 					frontPreNode.action + "," + frontPreNode.affectedCell.x + "," + frontPreNode.affectedCell.y,
 					frontPreNode.prevNode, prevNodes);
+			for (int i = 0 ; i < prevNodes.size(); i++) {
+				if(frontTreeNode.myLoc.x == prevNodes.get(i).myLoc.x && 
+						frontTreeNode.myLoc.y == prevNodes.get(i).myLoc.y &&
+						compareGrids(frontTreeNode.grid, prevNodes.get(i).grid) == true) {
+					//ignore this path
+					repeated = true;
+					break;
+					//if (!(queue.queue.isEmpty())) {
+					//frontPreNode = queue.dequeue();
+					//}
+				}
+			}
+			if (repeated == true) {
+				System.out.println("msh hakml");
+				continue;
+			}
+			System.out.println("tamam");
 			prevNodes.add(frontTreeNode);
 			possibleActions = getPossibleActions(frontTreeNode.myLoc, frontTreeNode.grid);
 			
@@ -74,14 +99,13 @@ public abstract class GeneralSearch {
 				String[] pa = possibleActions.get(i).split(",");
 				//System.out.println(possibleActions.get(i));
 				Location affected = new Location(Integer.parseInt(pa[1]), Integer.parseInt(pa[2]));
-				PreNode pn = new PreNode(pa[0], affected, start, 0);
+				PreNode pn = new PreNode(pa[0], affected, frontTreeNode, 0);
 				queue.enqueue(pn);
 				//queue.display();
 			}
-
 			boolean goal = isItGoal(frontTreeNode);
 			System.out.println(frontPreNode.action);
-
+			queue.display();
 			if (queue.queue.isEmpty()) {
 				failed = true;
 			}
@@ -89,10 +113,54 @@ public abstract class GeneralSearch {
 			if (frontTreeNode.neoDamage >= 100) {
 				return "fail";
 			}
+			
+			finalGrid = frontTreeNode.grid;
 
 		}
-		
-		return grid;
+		return finalGrid;
+	}
+	
+	//this might be tricky if we needed the damages as a difference
+	public static boolean compareGrids(String grid1, String grid2) {
+		boolean similar = false;
+		//if same number of agents and hostages and pills then similar
+		String[] splitted1 = grid1.split(";");
+		String[] splitted2 = grid2.split(";");
+		String[] agents1 = splitted1[4].split(",");
+		String[] agents2 = splitted2[4].split(",");
+		if (agents1.length == agents2.length) {
+			//check pills
+			String[] pills1 = splitted1[5].split(",");
+			String[] pills2 = splitted2[5].split(",");
+			if (pills1.length == pills2.length) {
+				//check hostages
+				String[] hos1;
+				if (splitted1.length <= 7 ) {
+					//no more hostages
+					hos1 = new String[0];
+				}else {
+					hos1 = splitted1[7].split(",");
+				}
+				
+				String[] hos2;
+				if (splitted2.length <= 7 ) {
+					//no more hostages
+					hos2 = new String[0];
+				}else {
+					hos2 = splitted2[7].split(",");
+				}
+				if (hos1.length ==hos2.length) {
+					similar = true;
+				}else {
+					similar = false;
+				}
+			}else {
+				similar = false;
+			}
+		}else {
+			similar = false;
+		}
+		return similar;
 	}
 
 	// goal test
@@ -123,7 +191,12 @@ public abstract class GeneralSearch {
 		String[] splitted = grid.split(";");
 		// System.out.println(splitted.length);
 		// array that contains locations of all the hostages
-		String[] hostages = splitted[7].split(",");
+		String[] hostages;
+		if (splitted.length <= 7) {
+			hostages = new String[0];
+		}else {
+			hostages = splitted[7].split(",");
+		}
 
 		for (int i = 0; i < hostages.length - 1; i += 3) {
 			// store the location and damage in a string
@@ -146,7 +219,12 @@ public abstract class GeneralSearch {
 
 		String[] splitted = grid.split(";");
 		// array that contains locations of all the hostages
-		String[] hostages = splitted[7].split(",");
+		String[] hostages;
+		if (splitted.length <= 7) {
+			hostages = new String[0];
+		}else {
+			hostages = splitted[7].split(",");
+		}
 
 		for (int i = 0; i < hostages.length - 1; i += 3) {
 			// store the location in a string
@@ -182,7 +260,12 @@ public abstract class GeneralSearch {
 		// (startx, starty, finishx, finishy)
 		String[] pads = splitted[6].split(",");
 		// array that contains locations of all the hostages
-		String[] hostages = splitted[7].split(",");
+		String[] hostages;
+		if (splitted.length <=7) {
+			hostages = new String[0];
+		}else {
+			hostages = splitted[7].split(",");
+		}
 
 		if (x == Integer.parseInt(telephone[0]) && y == Integer.parseInt(telephone[1])) {
 			result = "telephone;" + x + ";" + y;
@@ -639,7 +722,7 @@ public abstract class GeneralSearch {
 
 		result += ";" + pads + ";";
 
-		for (int i = 0; i < hostages.size() - 1; i += 3) {
+		for (int i = 0; i < hostages.size() - 2; i += 3) {
 			result += hostages.get(i) + "," + hostages.get(i + 1) + "," + hostages.get(i + 2);
 			if (i < hostages.size() - 4) {
 				result += ",";
