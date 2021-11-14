@@ -5,6 +5,8 @@ import code.Location;
 
 public class TreeNode {
 	
+	//parent node?
+	
 	//list for tracking the previous nodes visited to avoid repeated states
 	public ArrayList<TreeNode> prevNodes;
 	//current node location
