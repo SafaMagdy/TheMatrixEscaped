@@ -427,8 +427,7 @@ public class Grid {
 				// each entry in the arraylist is a string with commas splitting the x and y and
 				// damage
 				String[] splitted2 = hostages.get(i).split(",");
-				// the third element is the damage 
-				//decrement by 22 because we already incremented by 2 at the beginning of the method
+				// the third element is the damage
 				int oldDamage2 = Integer.parseInt(splitted2[2]) - 22;
 				// set the new damage
 				if (oldDamage2 < 0) {

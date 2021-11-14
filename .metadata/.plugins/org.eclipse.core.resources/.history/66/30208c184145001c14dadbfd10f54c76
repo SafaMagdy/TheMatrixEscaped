@@ -175,9 +175,7 @@ public class Matrix {
 			while (padsNum > (totalCells - busyLocations.size()) || padsNum % 2 != 0) {
 				// try again
 				rand.nextInt((totalCells - busyLocations.size()) + 1);
-				
 			}
-			System.out.println(padsNum);
 			// assign them to cells and add them to the grid string
 			for (int i = 0; i < padsNum; i++) {
 				int padX = rand.nextInt((n - 5) + 1) + 5;
