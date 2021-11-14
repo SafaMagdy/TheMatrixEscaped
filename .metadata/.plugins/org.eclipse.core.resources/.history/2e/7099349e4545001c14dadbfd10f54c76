@@ -10,7 +10,6 @@ public class Matrix {
 	// create a class for action methods?
 	// use array list instead of queue
 
-	/*
 	public static String genGrid() {
 		String grid = "";
 		ArrayList<Location> busyLocations = new ArrayList<Location>();
@@ -75,10 +74,9 @@ public class Matrix {
 				//hos = new Location(hosX, hosY);
 				hos.x = hosX;
 				hos.y = hosY;
-				System.out.println("maznoo2: " + hos.x + "   " + hos.y);
 			}
 			busyLocations.add(hos);
-			System.out.println("out of loop 2: " + i);
+			System.out.println("out of loop 2");
 			// append to string
 			hostages += hosX + "," + hosY + "," + damage;
 			// to add the comma after each hostage
@@ -96,7 +94,6 @@ public class Matrix {
 			int agentsNum = 0;
 			// to avoid overflow of agents put the max as the number of available cells
 			agentsNum = rand.nextInt((totalCells - busyLocations.size()) + 1);
-			System.out.println("agents: " + agentsNum);
 			// assign them to cells and add them to the grid string
 			for (int i = 0; i < agentsNum; i++) {
 				int ageX = rand.nextInt((n - 5) + 1) + 5;
@@ -112,11 +109,10 @@ public class Matrix {
 					//agent = new Location(ageX, ageY);
 					agent.x = ageX;
 					agent.y = ageY;
-					System.out.println("e7tmal at7shr " + ageX + "   " + ageY);
 
 				}
 				busyLocations.add(agent);
-				System.out.println("out of loop 3: " + i);
+				System.out.println("out of loop 3");
 				// append to string
 				grid += ageX + "," + ageY;
 				// to add the comma after each agent
@@ -140,7 +136,6 @@ public class Matrix {
 				// try again
 				pillsNum = rand.nextInt(hostagesNum + 1);
 			}
-			System.out.println("pills: " + pillsNum);
 			// assign them to cells and add them to the grid string
 			for (int i = 0; i < pillsNum; i++) {
 				int pillX = rand.nextInt((n - 5) + 1) + 5;
@@ -154,7 +149,6 @@ public class Matrix {
 					//pill = new Location(pillX, pillY);
 					pill.x = pillX;
 					pill.y = pillY;
-					System.out.println("e7tmal at7shr2");
 
 				}
 				busyLocations.add(pill);
@@ -165,9 +159,8 @@ public class Matrix {
 				if (i < pillsNum - 1) {
 					grid += ",";
 				}
-				System.out.println("out of loop 6: " + i);
 			}
-			
+			System.out.println("out of loop 6");
 
 			grid += ";";
 		}
@@ -185,7 +178,7 @@ public class Matrix {
 				rand.nextInt((totalCells - busyLocations.size()) + 1);
 				
 			}
-			System.out.println("pads: " + padsNum);
+			System.out.println(padsNum);
 			// assign them to cells and add them to the grid string
 			for (int i = 0; i < padsNum; i++) {
 				int padX = rand.nextInt((n - 5) + 1) + 5;
@@ -199,11 +192,10 @@ public class Matrix {
 					pad.x = padX;
 					pad.y = padY;
 					//pad = new Location(padX, padY);
-					System.out.println("e7tmal at7shr3");
 
 				}
 				busyLocations.add(pad);
-				System.out.println("out of loop 7: " + i);
+				System.out.println("out of loop 7");
 				// append to string
 				grid += padX + "," + padY;
 				// to add the comma after each pad
@@ -216,70 +208,11 @@ public class Matrix {
 			System.out.println("out of loop 8");
 		}
 		
-		System.out.println("e7tmal at7shr4");
 		grid += hostages;
 
 		System.out.println(grid);
 		return grid;
 	}
-	*/
-	
-	public static String genGrid() {
-		String grid = "";
-		// should be randomized
-		int m = 3;
-		int n = 3;
-		int c = 1;
-		int neoX = 0;
-		int neoY = 0;
-		grid = m + "," + n + ";" + c + ";" + neoX + "," + neoY + ";";
-		int teleX = 1;
-		int teleY = 1;
-		grid += teleX + "," + teleY;
-		int agentNumber = 1;
-		for (int i = 0; i < agentNumber; i++) {
-			int agentX = 0;
-			int agentY = 1;
-			grid += ";" + agentX + "," + agentY;
-		}
-		int pillNumber = 1;
-		for (int i = 0; i < pillNumber; i++) {
-			int pillX = 1;
-			int pillY = 2;
-			grid += ";" + pillX + "," + pillY;
-		}
-		int padNumber = 1;
-		for (int i = 0; i < padNumber; i++) {
-			int spadX = 0;
-			int spadY = 2;
-			int fpadX = 2;
-			int fpadY = 0;
-			grid += ";" + spadX + "," + spadY + "," + fpadX + "," + fpadY;
-		}
-		int hosNumber = 3;
-		for (int i = 0; i < 1; i++) {
-			int hosX = 1;
-			int hosY = 0;
-			int hosDamage = 0;
-			grid += ";" + hosX + "," + hosY + "," + hosDamage;
-		}
-		for (int i = 0; i < 1; i++) {
-			int hosX = 2;
-			int hosY = 1;
-			int hosDamage = 50;
-			grid += "," + hosX + "," + hosY + "," + hosDamage;
-			;
-		}
-		for (int i = 0; i < 1; i++) {
-			int hosX = 2;
-			int hosY = 2;
-			int hosDamage = 90;
-			grid += "," + hosX + "," + hosY + "," + hosDamage;
-			;
-		}
-		return grid;
-	}
-
 
 	// this method check whether or not the cell is empty in order to avoid overlap
 	// in cells
@@ -304,7 +237,7 @@ public class Matrix {
 
 	public static void main(String[] args) {
 
-		System.out.println(genGrid());
+		genGrid();
 	}
 
 	// gen grid

@@ -24,17 +24,12 @@ public class TreeNode {
 	//array containing mutant hostages and their locations
 	//this array is created in each node using the given grid
 	public ArrayList<String> mutantHostages;
-	//operator applied to get this node
-	public String operator;
-	//depth
-	public int depth;
-	//cost
-	public double cost;
 	
-	public TreeNode(TreeNode parent,ArrayList<TreeNode> prevNodes, Location myLoc, int neoD, String grid, int kills, int deaths, 
-			ArrayList<String> hostages, ArrayList<String> mutantHostages, String op, int d, double cost) {
+	
+	
+	public TreeNode(ArrayList<TreeNode> prevNodes, Location myLoc, int neoD, String grid, int kills, int deaths, 
+			ArrayList<String> hostages, ArrayList<String> mutantHostages) {
 		
-		this.parent = parent;
 		this.prevNodes = prevNodes;
 		this.myLoc = myLoc;
 		this.neoDamage = neoD;
@@ -43,10 +38,6 @@ public class TreeNode {
 		this.deaths = deaths;
 		this.hostages = hostages;
 		this.mutantHostages = mutantHostages;
-		this.operator = op;
-		this.depth= d;
-		this.cost = cost;
-		
 	}
 	
 	

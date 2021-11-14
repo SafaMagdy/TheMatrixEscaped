@@ -45,7 +45,7 @@ public class TreeNode {
 		this.mutantHostages = mutantHostages;
 		this.operator = op;
 		this.depth= d;
-		this.cost = cost;
+		this.cost = cost;x
 		
 	}
 	

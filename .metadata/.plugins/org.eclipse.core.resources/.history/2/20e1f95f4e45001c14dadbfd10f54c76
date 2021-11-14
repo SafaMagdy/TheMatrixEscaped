@@ -43,10 +43,6 @@ public class TreeNode {
 		this.deaths = deaths;
 		this.hostages = hostages;
 		this.mutantHostages = mutantHostages;
-		this.operator = op;
-		this.depth= d;
-		this.cost = cost;
-		
 	}
 	
 	
