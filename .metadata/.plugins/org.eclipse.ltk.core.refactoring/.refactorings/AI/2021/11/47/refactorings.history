@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;code.Queue.DPQueue.java&apos; to &apos;DFQueue.java&apos;&#x0D;&#x0A;- Original project: &apos;AI&apos;&#x0D;&#x0A;- Original element: &apos;code.Queue.DPQueue.java&apos;&#x0D;&#x0A;- Renamed element: &apos;code.Queue.DFQueue.java&apos;" description="Rename compilation unit &apos;DPQueue.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;code.Queue{DPQueue.java" name="DFQueue.java" references="false" stamp="1636898679655" version="1.0"/>
+</session>

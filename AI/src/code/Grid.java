@@ -320,17 +320,9 @@ public class Grid {
 		return result;
 	}
 
-	// reminder: Safa's opinion: if Neo carried a hostage we should remove this
-	// hostage from its position
-	// because we will increment the c and there is no need to monitor the damage of
-	// the hostage
-	// because if he died then nothing will change
-	// However, if we kept it in the hostages array we will need to add a condition
-	// while monitoring the damage
-	// that if the damage reached 100 while Neo is carrying him do not turn in
-	// mutant
-	// and I believe this is complex for no good
-	//The only problem will be if the hostage died while being carried we have to increase number of deaths
+	// reminder: make the location of the carried hostage should be that of neo
+	// reminder: adjust damage abl maymot law pill 
+	// reminder e3mly el ba2y
 
 	// updates everything needed according to the action taken
 	// I think it should return the new grid string
@@ -374,9 +366,6 @@ public class Grid {
 				mutantHostages.add(hostages.get(i));
 				hostages.remove(i);
 				// update the grid by adding the new hostage damage
-				// this update will be reflected when we call updateGrid method above
-				// as it takes the input of hostages and mutant hostages from the grid in this
-				// method
 				// as we do not add a different category in the grid string to represent the
 				// mutant hostages
 				// we rely on having the damage of 100 or greater to reflect this change
@@ -445,6 +434,8 @@ public class Grid {
 				if (loc.x == Integer.parseInt(hostages.get(i)) && loc.y == Integer.parseInt(hostages.get(i + 1))) {
 					// replace the x and y with negatives so that when we combine the string again
 					// we can know that this is not valid
+					
+					//set the location to that of neo
 					hostages.remove(i + 1);
 					hostages.remove(i);
 					break;
@@ -454,7 +445,9 @@ public class Grid {
 		case ("Drop"):
 			// Decrement c by 1
 			break;
-		case ("Move"): // nothing changes in the grid only the overall hostage damage increases by 2
+		case ("Move"): 
+			// change hostages carried location
+			// nothing changes in the grid only the overall hostage damage increases by 2
 			// and this is already handled above
 			//
 			break;
@@ -510,9 +503,19 @@ public class Grid {
 		return result;
 
 	}
+	
+	//method to print the content of any array
+	public static void printArr (ArrayList<String> arr)
+	{
+		for ( int i = 0 ; i < arr.size(); i++) {
+			System.out.print(arr.get(i));
+		}
+		System.out.println(" ");
+	}
 
 	public static void main(String[] args) {
 
 		System.out.println(genGrid());
+		
 	}
 }

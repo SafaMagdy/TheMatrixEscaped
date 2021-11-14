@@ -19,12 +19,20 @@ public class PreNode {
 	//the previous node directly before this action
 	//this helps with storing the states needed to start traversing the branch
 	public TreeNode prevNode;
+	public int cost;
 	
-	public PreNode(String action, Location affectedCell, TreeNode prevNode ) {
+	public PreNode(String action, Location affectedCell, TreeNode prevNode, int cost ) {
 		
 		this.action = action;
 		this.affectedCell = affectedCell;
 		this.prevNode = prevNode;
+		this.cost = cost;
+	}
+	
+	@Override
+	public String toString() {
+		String result = this.action + " " + this.affectedCell.x + "  " + this.affectedCell.y+"\n--------";
+		return result;
 	}
 
 }

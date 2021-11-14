@@ -1,0 +1,16 @@
+package code.Queue;
+import code.TreeNode;
+import code.PreNode;
+import java.util.ArrayList;
+
+public abstract class Queue {
+	
+	private ArrayList<TreeNode> queue;
+	
+	
+	public abstract void enqueue(PreNode pn) {
+		
+	}
+	
+
+}

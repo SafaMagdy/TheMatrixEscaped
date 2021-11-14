@@ -2,10 +2,16 @@ package code;
 
 import java.util.Random;
 import code.Location;
+import code.TreeNode;
+import code.Queue.*;
 
 import java.util.ArrayList;
 
-public class Matrix {
+public class Matrix extends GeneralSearch{
+	
+	public Matrix () {
+		super();
+	}
 
 	// create a class for action methods?
 	// use array list instead of queue
@@ -297,14 +303,27 @@ public class Matrix {
 
 	}
 	
+	
 	public static String solve(String grid, String strategy, boolean visualize) {
 		String result = "";
+		generalSearch(grid, "DF");
 		return result;
 	}
+	
+	//method to print the content of any array
+		public static void printArr (ArrayList<String> arr)
+		{
+			for ( int i = 0 ; i < arr.size(); i++) {
+				System.out.println(arr.get(i));
+			}
+			System.out.println(" ");
+		}
 
 	public static void main(String[] args) {
 
-		System.out.println(genGrid());
+		String grid = genGrid();
+		System.out.println(grid);
+		solve(grid, "DF", false);
 	}
 
 	// gen grid
