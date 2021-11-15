@@ -299,7 +299,7 @@ public class Matrix extends GeneralSearch{
 	
 	public static String solve(String grid, String strategy, boolean visualize) {
 		String result = "";
-		result = generalSearch(grid, "DF");
+		result = generalSearch(grid, "DF", visualize);
 		return result;
 	}
 	
@@ -315,7 +315,7 @@ public class Matrix extends GeneralSearch{
 
 		String grid = genGrid();
 		System.out.println(grid);
-		System.out.println(solve(grid, "DF", false));
+		System.out.println(solve(grid, "DF", true));
 	}
 
 }
