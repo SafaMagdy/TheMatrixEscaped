@@ -52,7 +52,7 @@ public abstract class GeneralSearch {
 		}
 
 		// get the possible actions for the starting node
-		ArrayList<String> possibleActions = getPossibleActions(neo, grid);
+		ArrayList<String> possibleActions = getPossibleActions(start);
 		
 		for (int i = 0; i < possibleActions.size(); i++) {
 			String[] pa = possibleActions.get(i).split(",");
@@ -74,6 +74,7 @@ public abstract class GeneralSearch {
 				System.out.println("Removing a PreNode from the queue ");
 			}
 			PreNode frontPreNode = queue.dequeue();
+			System.out.println("The prenode: " +frontPreNode.action);
 			boolean repeated = false;
 			/*
 			for (int i = 0 ; i < prevNodes.size(); i++) {
@@ -104,7 +105,8 @@ public abstract class GeneralSearch {
 			for (int i = 0 ; i < prevNodes.size(); i++) {
 				if(frontTreeNode.myLoc.x == prevNodes.get(i).myLoc.x && 
 						frontTreeNode.myLoc.y == prevNodes.get(i).myLoc.y &&
-						compareGrids(frontTreeNode.grid, prevNodes.get(i).grid) == true) {
+						compareGrids(frontTreeNode.grid, prevNodes.get(i).grid) == true
+						&& !(frontPreNode.action.equals("Drop"))) {
 					//ignore this path
 					repeated = true;
 					break;
@@ -116,7 +118,7 @@ public abstract class GeneralSearch {
 			if (repeated == true) {
 				if (visualize) {
 					System.out.println("Following this action will lead to a repeated state so I ignored it ");
-					queue.display();
+					//queue.display();
 				}
 				continue;
 			}
@@ -131,8 +133,9 @@ public abstract class GeneralSearch {
 				System.out.println(" Neo is carrying: " + frontTreeNode.carried.size() + " hostages");
 				System.out.println(" The grid is now: " + frontTreeNode.grid);
 			}
+			result += frontPreNode.action + ",";
 			prevNodes.add(frontTreeNode);
-			possibleActions = getPossibleActions(frontTreeNode.myLoc, frontTreeNode.grid);
+			possibleActions = getPossibleActions(frontTreeNode);
 			
 			for (int i = 0; i < possibleActions.size(); i++) {
 				String[] pa = possibleActions.get(i).split(",");
@@ -141,19 +144,21 @@ public abstract class GeneralSearch {
 				queue.enqueue(pn);
 			}
 			
-			if (visualize) {
-				System.out.println("The possible action(s) available at this cell is/are (as ordered in the queue): ");
-				queue.display();
-			}
+			//if (visualize) {
+				//System.out.println("The possible action(s) available at this cell is/are (as ordered in the queue): ");
+				//queue.display();
+			//}
 			
 			if (queue.queue.isEmpty()) {
-				return "Failed";
+				//System.out.println("failed");
+				result+="Failed";
+				return result;
 			}
 			
 			finalGrid = frontTreeNode.grid;
 
 		}
-		return finalGrid;
+		return result;
 	}
 	
 	public static boolean gameOver(int neoD) {
@@ -212,7 +217,7 @@ public abstract class GeneralSearch {
 
 		boolean goal = false;
 		String grid = n.grid;
-		System.out.println(grid);
+		//System.out.println(grid);
 		ArrayList<String> hostages = getHostages(grid);
 		ArrayList<String> mutantHostages = getMutantHostages(grid);
 		if (mutantHostages.size() == 0 && hostages.size() == 0) {
@@ -245,7 +250,7 @@ public abstract class GeneralSearch {
 			hostages = splitted[7].split(",");
 		}
 
-		for (int i = 0; i < hostages.length - 1; i += 3) {
+		for (int i = 0; i < hostages.length - 2; i += 3) {
 			// store the location and damage in a string
 			String temp = "";
 			// check the damage to know if mutant or alive
@@ -273,7 +278,7 @@ public abstract class GeneralSearch {
 			hostages = splitted[7].split(",");
 		}
 
-		for (int i = 0; i < hostages.length - 1; i += 3) {
+		for (int i = 0; i < hostages.length - 2; i += 3) {
 			// store the location in a string
 			String temp = "";
 			// check the damage to know if mutant or alive
@@ -289,8 +294,7 @@ public abstract class GeneralSearch {
 		return result;
 	}
 
-	// method to get the content of the given cell and useful information about
-	// content of cell
+	// method to get the content of the given cell and useful information about content of cell
 	// can be used to determine the surroundings of the current cell
 	public static String whatInCell(int x, int y, String grid) {
 		String result = "";
@@ -464,18 +468,18 @@ public abstract class GeneralSearch {
 	// method to detect possible actions and insert in queue
 	// this method returns array of strings of the following format
 	// "ActionName", "affectedLocation"
-	public static ArrayList<String> getPossibleActions(Location current, String grid) {
+	public static ArrayList<String> getPossibleActions(TreeNode node) {
 		ArrayList<String> result = new ArrayList<String>();
 		// check the current cell components
-		String currentCellComponent = whatInCell(current.x, current.y, grid);
+		String currentCellComponent = whatInCell(node.myLoc.x, node.myLoc.y, node.grid);
 		if (currentCellComponent.contains("pill")) {
 			// either take it or leave it
-			result.add("Pill," + current.x + "," + current.y);
+			result.add("Pill," + node.myLoc.x + "," + node.myLoc.y);
 		}
 		if (currentCellComponent.contains("hostage")) {
 			// cannot be a mutant hostage because we do not add this option to happen during
 			// movement
-			result.add("Carry," + current.x + "," + current.y);
+			result.add("Carry," + node.myLoc.x + "," + node.myLoc.y);
 		}
 		if (currentCellComponent.contains("pad")) {
 			// get the go-to pad from the string
@@ -488,11 +492,15 @@ public abstract class GeneralSearch {
 		if (currentCellComponent.contains("telephone")) {
 			// you can either drop or leave
 			// check before drop if there is a hostage to drop
-			result.add("Drop," + current.x + "," + current.y);
+			if (node.carried.size()>0) {
+				result.add("Drop," + node.myLoc.x + "," + node.myLoc.y);
+			}
+			
 		}
 
 		// get the possible movements
-		ArrayList<String> movements = whereCanIMove(current, grid);
+		Location current = new Location(node.myLoc.x, node.myLoc.y);
+		ArrayList<String> movements = whereCanIMove(current, node.grid);
 		if (!(movements.isEmpty())) {
 			for (int i = 0; i < movements.size(); i++) {
 				if (movements.get(i) == "Up") {
@@ -617,11 +625,12 @@ public abstract class GeneralSearch {
 					break;
 				}
 			}
-			for (int i = 0; i < mutantHostages.size() - 1; i += 2) {
-				if (prevNode.myLoc.x == Integer.parseInt(mutantHostages.get(i))
-						&& prevNode.myLoc.y == Integer.parseInt(mutantHostages.get(i + 1))) {
+			for (int i = 0; i < mutantHostages.size(); i++) {
+				String[] mHos = mutantHostages.get(i).split(","); 
+				if (prevNode.myLoc.x == Integer.parseInt(mHos[0])
+						&& prevNode.myLoc.y == Integer.parseInt(mHos[1])) {
 					// remove the mutant hostages from the arraylist
-					mutantHostages.remove(i + 1);
+					//mutantHostages.remove(i + 1);
 					mutantHostages.remove(i);
 					// also remove the hostage from the grid string
 					break;
@@ -663,28 +672,28 @@ public abstract class GeneralSearch {
 					oldDamage2 -= 20;
 				}
 				// set the new damage
-				if (oldDamage2 < 0) {
-					hostages.set(i, splitted2[0] + "," + splitted2[1] + "," + oldDamage2);
+				//if (oldDamage2 < 0) {
+				hostages.set(i, splitted2[0] + "," + splitted2[1] + "," + oldDamage2);
 					// check that is cannot reach below 0
-				}
+				//}
 			}
-			// Decrement Neo damage by 20
 			break;
 		case ("Carry"):
 			// update grid method above
 			int cAllowed = Integer.parseInt(splitted[1]);
-			if (carried.size() + 1 < cAllowed) {
+			if (carried.size() + 1 <= cAllowed) {
 				// increment c by 1
-				for (int i = 0; i < hostages.size() - 1; i += 3) {
-					if (prevNode.myLoc.x == Integer.parseInt(hostages.get(i))
-							&& prevNode.myLoc.y == Integer.parseInt(hostages.get(i + 1))) {
+				for (int i = 0; i < hostages.size(); i++) {
+					String[] hos = hostages.get(i).split(",");
+					if (prevNode.myLoc.x == Integer.parseInt(hos[0])
+							&& prevNode.myLoc.y == Integer.parseInt(hos[1])) {
 						// replace the x and y with negatives so that when we combine the string again
 						// we can know that this is not valid
 
 						// set the location to that of neo
-						hostages.remove(i + 1);
+						//hostages.remove(i + 1);
 						hostages.remove(i);
-						carried.add(Integer.parseInt(hostages.remove(i + 2)));
+						carried.add(Integer.parseInt(hos[2]));
 						break;
 					}
 				}
@@ -693,8 +702,10 @@ public abstract class GeneralSearch {
 			break;
 		case ("Drop"):
 			// Reset carried
-			prevNode.carried = new ArrayList<Integer>();
-			carried = new ArrayList<Integer>();
+			if (carried.size() > 0) {
+				prevNode.carried = new ArrayList<Integer>();
+				carried = new ArrayList<Integer>();
+			}
 			break;
 		case ("Down"):
 			// nothing changes in the grid only the overall hostage damage increases by 2
@@ -763,13 +774,13 @@ public abstract class GeneralSearch {
 		for (int i = 0; i < hostages.size(); i++) {
 			String[] curHos = hostages.get(i).split(",");
 			result += curHos[0] + "," + curHos[1] + "," + curHos[2];
-			if (i < hostages.size()-1) {
+			if (i < hostages.size()) {
 				result += ",";
 			}
 		}
 
 		// add the mutant hostages to the hostages category in the grid
-		for (int i = 0; i < mutantHostages.size() - 1; i += 2) {
+		for (int i = 0; i < mutantHostages.size(); i++) {
 			String[] curHos = mutantHostages.get(i).split(",");
 			result += curHos[0] + "," + curHos[1] + "," + "100";
 			if (i < mutantHostages.size() - 1) {
