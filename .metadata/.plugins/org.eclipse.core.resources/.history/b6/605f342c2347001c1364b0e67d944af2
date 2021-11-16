@@ -316,7 +316,7 @@ public class Matrix extends GeneralSearch{
 		String grid = genGrid();
 		System.out.println(grid);
 		System.out.println(solve(grid, "DF", true));
-		//System.out.println(solve(grid, "BF", true));
+		System.out.println(solve(grid, "BF", true));
 	}
 
 }

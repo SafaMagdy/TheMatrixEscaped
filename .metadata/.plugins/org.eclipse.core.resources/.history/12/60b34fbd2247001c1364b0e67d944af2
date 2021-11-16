@@ -45,9 +45,6 @@ public abstract class GeneralSearch {
 		case ("DF"):
 			queue = new DFQueue();
 			break;
-		case ("BF"):
-			queue = new BFQueue();
-			break;
 		default:
 			//temporary
 			queue = new DFQueue();

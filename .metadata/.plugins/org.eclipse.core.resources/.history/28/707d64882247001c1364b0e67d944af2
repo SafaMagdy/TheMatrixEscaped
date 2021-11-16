@@ -1,0 +1,14 @@
+package code.Queue;
+
+import code.PreNode;
+
+public class BFQueue extends Queueu{
+	
+	
+	@Override
+	public void enqueue(PreNode pn) {
+		super.queue.add(0, pn);
+		
+	}
+
+}
