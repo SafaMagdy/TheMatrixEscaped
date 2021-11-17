@@ -13,21 +13,22 @@ public abstract class GeneralSearch {
 	//if yes then apply the method whatincell to know what is it that I am killing at the given affected cell
 	//and if a hostage check damage
 
+	
+	//general search method==> returns the string required in the pdf
 	public static String generalSearch(String grid, String strategy, boolean visualize) {
 		String result = "";
 		//initialize everything as this is the start
 		ArrayList<TreeNode> prevNodes = new ArrayList<TreeNode>();
 		ArrayList<PreNode> preNodes = new ArrayList<PreNode>();
 		String[] splitted = grid.split(";");
-		//get Neo's starting position
+		//get Neo's starting position from the given grid
 		String[] preNeo = splitted[2].split(",");
 		Location neo = new Location(Integer.parseInt(preNeo[0]), Integer.parseInt(preNeo[1]));
-		//array to store the damages of the carried hostages
-		//also used to keep track of the number of carried hostages
+		//array to store the damages of the carried hostages and keep track of their number
 		ArrayList<Integer> carried = new ArrayList<Integer>();
 		
+		//TO-DO: cost
 		// create initial starting node
-		// reminder: cost
 		TreeNode start = new TreeNode(null, prevNodes, neo, 0, grid, 0, 0, "Start", 0, 0, carried);
 		PreNode startPre = new PreNode("Start", neo, start, 0);
 
@@ -76,8 +77,12 @@ public abstract class GeneralSearch {
 			if (visualize) {
 				System.out.println("Removing a PreNode from the queue ");
 			}
+			
 			PreNode frontPreNode = queue.dequeue();
-			System.out.println("The prenode: " +frontPreNode.action);
+			
+			if (visualize) {
+				System.out.println("The prenode: " +frontPreNode.action);
+			}	
 			boolean repeated = false;
 			/*
 			for (int i = 0 ; i < prevNodes.size(); i++) {
@@ -95,16 +100,20 @@ public abstract class GeneralSearch {
 
 			//check if gameOver
 			if (gameOver(frontTreeNode.neoDamage)) {
-				return "Game Over";
+				System.out.println("Game Over at this path");
+				continue;
+				//result += "Game Over";
+				//return result;
 			}
 			
 			//check if goal
 			//return the requirements of solve
 			if (isItGoal(frontTreeNode)) {
-				return "Daret ya syaaaa3";
+				System.out.println("Daret ya syaaaa3");
+				return result += "Goal";
 			}
 			
-			//check if this is a valid check for repeated states
+			//TO-DO: check if this is a valid check for repeated states
 			for (int i = 0 ; i < prevNodes.size(); i++) {
 				if(frontTreeNode.myLoc.x == prevNodes.get(i).myLoc.x && 
 						frontTreeNode.myLoc.y == prevNodes.get(i).myLoc.y &&
@@ -113,24 +122,20 @@ public abstract class GeneralSearch {
 					//ignore this path
 					repeated = true;
 					break;
-					//if (!(queue.queue.isEmpty())) {
-					//frontPreNode = queue.dequeue();
-					//}
 				}
 			}
 			if (repeated == true) {
 				if (visualize) {
 					System.out.println("Following this action will lead to a repeated state so I ignored it ");
-					//queue.display();
 				}
 				continue;
 			}
 			if (visualize) {
 				System.out.println("Neo was at cell: " + frontPreNode.prevNode.myLoc.x + "  " +
 						frontPreNode.prevNode.myLoc.y );
-				System.out.println("  After applying the action: " + frontPreNode.action + " Neo is now at cell: "
+				System.out.println(" After applying the action: " + frontPreNode.action + " Neo is now at cell: "
 						+ frontTreeNode.myLoc.x + "  " + frontTreeNode.myLoc.y);
-				System.out.println("  Neo's damage is now: " + frontTreeNode.neoDamage);
+				System.out.println(" Neo's damage is now: " + frontTreeNode.neoDamage);
 				System.out.println(" Number of Kills: " + frontTreeNode.kills);
 				System.out.println(" Number of Deaths: " + frontTreeNode.deaths);
 				System.out.println(" Neo is carrying: " + frontTreeNode.carried.size() + " hostages");
@@ -147,23 +152,22 @@ public abstract class GeneralSearch {
 				queue.enqueue(pn);
 			}
 			
-			//if (visualize) {
-				//System.out.println("The possible action(s) available at this cell is/are (as ordered in the queue): ");
-				//queue.display();
-			//}
-			
 			if (queue.queue.isEmpty()) {
-				//System.out.println("failed");
+				System.out.println("failed");
 				result+="Failed";
 				return result;
 			}
-			
 			finalGrid = frontTreeNode.grid;
-
+		}
+		if (queue.queue.isEmpty()) {
+			System.out.println("failed");
+			result+="Failed";
+			return result;
 		}
 		return result;
 	}
 	
+	//returns true if neo is dead, false otherwise
 	public static boolean gameOver(int neoD) {
 		boolean gameOver = false;
 		if (neoD >= 100) {
@@ -172,7 +176,9 @@ public abstract class GeneralSearch {
 		return gameOver;
 	}
 	
-	//this might be tricky if we needed the damages as a difference
+	
+	//compares the grids of the two nodes in comparison to help check for repeated states
+	//TO-DO: this might be tricky if we needed the damages as a difference
 	public static boolean compareGrids(String grid1, String grid2) {
 		boolean similar = false;
 		//if same number of agents and hostages and pills then similar
@@ -187,6 +193,8 @@ public abstract class GeneralSearch {
 			if (pills1.length == pills2.length) {
 				//check hostages
 				String[] hos1;
+				//this check is needed because if there are no more hostages in the grid
+				//the last part of the grid will not appear after split
 				if (splitted1.length <= 7 ) {
 					//no more hostages
 					hos1 = new String[0];
@@ -217,15 +225,13 @@ public abstract class GeneralSearch {
 
 	// goal test
 	public static boolean isItGoal(TreeNode n) {
-
 		boolean goal = false;
 		String grid = n.grid;
-		//System.out.println(grid);
 		ArrayList<String> hostages = getHostages(grid);
 		ArrayList<String> mutantHostages = getMutantHostages(grid);
 		if (mutantHostages.size() == 0 && hostages.size() == 0) {
-			System.out.println(mutantHostages.size());
-			System.out.println(hostages.size());
+			//System.out.println(mutantHostages.size());
+			//System.out.println(hostages.size());
 			goal = true;
 		}
 		return goal;
@@ -240,11 +246,11 @@ public abstract class GeneralSearch {
 		System.out.println(" ");
 	}
 
-	// method to fill the hostages and damage
+	// returns arraylist of hostages with their damages 
+	//each element is in the form of "hosX,hosY,damage"
 	public static ArrayList<String> getHostages(String grid) {
 		ArrayList<String> result = new ArrayList<String>();
 		String[] splitted = grid.split(";");
-		// System.out.println(splitted.length);
 		// array that contains locations of all the hostages
 		String[] hostages;
 		if (splitted.length <= 7) {
@@ -268,10 +274,10 @@ public abstract class GeneralSearch {
 		return result;
 	}
 
-	// method to fill the mutant hostages
+	// returns arraylist of mutant hostages
+	//each element is in the form of "hosX,hosY"
 	public static ArrayList<String> getMutantHostages(String grid) {
 		ArrayList<String> result = new ArrayList<String>();
-
 		String[] splitted = grid.split(";");
 		// array that contains locations of all the hostages
 		String[] hostages;
@@ -291,9 +297,7 @@ public abstract class GeneralSearch {
 				temp += hostages[i] + "," + hostages[i + 1];
 				result.add(temp);
 			}
-
 		}
-
 		return result;
 	}
 
@@ -355,7 +359,6 @@ public abstract class GeneralSearch {
 				return result;
 			}
 		}
-
 		return result;
 	}
 
@@ -365,24 +368,23 @@ public abstract class GeneralSearch {
 		// check all possible directions
 		String[] splitted = grid.split(";");
 		String[] dimensions = splitted[0].split(",");
-		int cols = Integer.parseInt(dimensions[1]);
 		int rows = Integer.parseInt(dimensions[0]);
+		int cols = Integer.parseInt(dimensions[1]);
 		boolean up = false;
 		boolean right = false;
 		boolean down = false;
 		boolean left = false;
 		// check if I can go left
 		if (current.y > 0) {
-			// check if there is an agent or a mutant agent
+			// check if there is an agent or a mutant agent or if there is a hostage check the damage
 			String upCellComponent = whatInCell(current.x, current.y - 1, grid);
 			if (!(upCellComponent.contains("agent"))) {
-				// check if there is a mutant hostage
+				// check if there is a mutant hostage or the hostage is about to become mutant
 				if (upCellComponent.contains("hostage")) {
-					// check the damage to know if it is mutant
 					String[] hos = upCellComponent.split(";");
-					if (Integer.parseInt(hos[3]) < 100) {
+					if (Integer.parseInt(hos[3]) < 98) {
 						left = true;
-					} else {
+					} else if ((Integer.parseInt(hos[3]) >= 100)){
 						result.add("KillLeft");
 					}
 				}
@@ -398,12 +400,10 @@ public abstract class GeneralSearch {
 			if (!(rightCellComponent.contains("agent"))) {
 				// check if there is a mutant hostage
 				if (rightCellComponent.contains("hostage")) {
-					// System.out.println(rightCellComponent);
-					// check the damage to know if it is mutant
 					String[] hos = rightCellComponent.split(";");
-					if (Integer.parseInt(hos[3]) < 100) {
+					if (Integer.parseInt(hos[3]) < 98) {
 						down = true;
-					} else {
+					} else if ((Integer.parseInt(hos[3]) >= 100)){
 						result.add("KillDown");
 					}
 				}
@@ -419,11 +419,10 @@ public abstract class GeneralSearch {
 			if (!(downCellComponent.contains("agent"))) {
 				// check if there is a mutant hostage
 				if (downCellComponent.contains("hostage")) {
-					// check the damage to know if it is mutant
 					String[] hos = downCellComponent.split(";");
-					if (Integer.parseInt(hos[3]) < 100) {
+					if (Integer.parseInt(hos[3]) < 98) {
 						right = true;
-					} else {
+					} else if ((Integer.parseInt(hos[3]) >= 100)){
 						result.add("KillRight");
 					}
 				}
@@ -439,11 +438,10 @@ public abstract class GeneralSearch {
 			if (!(leftCellComponent.contains("agent"))) {
 				// check if there is a mutant hostage
 				if (leftCellComponent.contains("hostage")) {
-					// check the damage to know if it is mutant
 					String[] hos = leftCellComponent.split(";");
-					if (Integer.parseInt(hos[3]) < 100) {
+					if (Integer.parseInt(hos[3]) < 98) {
 						up = true;
-					} else {
+					} else if ((Integer.parseInt(hos[3]) >= 100)){
 						result.add("KillUp");
 					}
 				}
@@ -480,27 +478,25 @@ public abstract class GeneralSearch {
 			result.add("Pill," + node.myLoc.x + "," + node.myLoc.y);
 		}
 		if (currentCellComponent.contains("hostage")) {
-			// cannot be a mutant hostage because we do not add this option to happen during
-			// movement
+			//TO-DO check if we need to add the mutant hostage check
+			// cannot be a mutant hostage because we do not add this option to happen during movement
+			//in the update method we check if we can actually perform the carry or not
 			result.add("Carry," + node.myLoc.x + "," + node.myLoc.y);
 		}
 		if (currentCellComponent.contains("pad")) {
 			// get the go-to pad from the string
-			String[] pillData = currentCellComponent.split(";");
+			String[] padData = currentCellComponent.split(";");
 			// we know that the current cell is the first pad in the string so ignore it
-			int fx = Integer.parseInt(pillData[3]);
-			int fy = Integer.parseInt(pillData[4]);
+			int fx = Integer.parseInt(padData[3]);
+			int fy = Integer.parseInt(padData[4]);
 			result.add("Fly," + fx + "," + fy);
 		}
 		if (currentCellComponent.contains("telephone")) {
-			// you can either drop or leave
 			// check before drop if there is a hostage to drop
 			if (node.carried.size()>0) {
 				result.add("Drop," + node.myLoc.x + "," + node.myLoc.y);
 			}
-			
 		}
-
 		// get the possible movements
 		Location current = new Location(node.myLoc.x, node.myLoc.y);
 		ArrayList<String> movements = whereCanIMove(current, node.grid);
@@ -523,26 +519,21 @@ public abstract class GeneralSearch {
 				} else if (movements.get(i) == "KillLeft") {
 					result.add("Kill," + current.x + "," + (current.y - 1));
 				}
-
 			}
 		}
 		return result;
-
 	}
 
-	// updates everything needed according to the action taken
+	// updates everything needed according to the action taken 
+	//returns the new node resulting from the update
 	public static TreeNode update(String action, TreeNode prevNode, ArrayList<TreeNode> prevNodes) {
 		// we assume that Neo starts with 0 damage
-		// update damage of all hostages
-
 		// resultant grid
 		String result = "";
 		// split the grid at ; to extract different categories in the grid
 		String[] splitted = prevNode.grid.split(";");
-		// since the dimensions and neo's initial position and TB position are constant,
-		// append to result
+		// since the dimensions and neo's initial position and TB position are constant, append to result
 		result += splitted[0] + ";" + splitted[1] + ";" + splitted[2] + ";" + splitted[3] + ";";
-
 		// array that contains locations of all the agents
 		String[] agents = splitted[4].split(",");
 		// array that contains the locations of all mutant hostages
@@ -554,8 +545,6 @@ public abstract class GeneralSearch {
 		// (startx, starty, finishx, finishy)
 		String pads = splitted[6];
 		// array that contains locations of all the hostages
-		// get this array from the method getHostages to avoid getting mutant hostages
-		// from the grid string
 		ArrayList<String> hostages = getHostages(prevNode.grid);
 		ArrayList<Integer> carried = prevNode.carried;
 		int deaths = prevNode.deaths;
@@ -565,14 +554,14 @@ public abstract class GeneralSearch {
 		// get the affected location from action
 		String[] actionDetails = action.split(",");
 		Location moveTo = new Location(Integer.parseInt(actionDetails[1]), Integer.parseInt(actionDetails[2]));
-
+		// update damage of all hostages
 		for (int i = 0; i < hostages.size(); i++) {
-			// each entry in the arraylist is a string with commas splitting the x and y and
-			// damage
+			// each entry in the arraylist is a string with commas splitting the x and y and damage
 			String[] splittedHos = hostages.get(i).split(",");
 			// the third element is the damage
 			int oldDamage = Integer.parseInt(splittedHos[2]) + 2;
 			if (action == "Pill") {
+				//reverse the action
 				oldDamage -= 2;
 			}
 			// set the new damage
@@ -583,8 +572,7 @@ public abstract class GeneralSearch {
 				mutantHostages.add(hostages.get(i));
 				hostages.remove(i);
 				i--;
-				// as we do not add a different category in the grid string to represent the
-				// mutant hostages
+				// as we do not add a different category in the grid string to represent the mutant hostages
 				// we rely on having the damage of 100 or greater to reflect this change
 			}
 		}
@@ -597,7 +585,6 @@ public abstract class GeneralSearch {
 					} else {
 						carried.set(i, d - 20);
 					}
-
 				}
 			} else if (d < 100) {
 				carried.set(i, d + 2);
@@ -605,41 +592,70 @@ public abstract class GeneralSearch {
 					deaths++;
 				}
 			}
-
 		}
-		
 		// check the action performed and accordingly update the grid or damage
 		switch (actionDetails[0]) {
 		case ("Kill"):
-			// update grid by removing the killed agent or mutant hostage
-			// increment Neo's damage by 20
-			// increment the number of killings by 1 if it is an agent
-			kills++;
-			neoD += 20;
-			for (int i = 0; i < agents.length - 1; i += 2) {
-				if (Integer.parseInt(actionDetails[1]) == Integer.parseInt(agents[i])
-						&& Integer.parseInt(actionDetails[2]) == Integer.parseInt(agents[i + 1])) {
-					
-					// replace the x and y with negatives so that when we combine the string again
-					// we can know that this is not valid
-					
-					agents[i] = "-1";
-					agents[i + 1] = "-1";
-					break;
+			//check if I am in a cell with a hostage of damage 98 or 99 and if yes then do not perform this action
+			String currentCellComponent = whatInCell(prevNode.myLoc.x, prevNode.myLoc.y, prevNode.grid);
+			if (currentCellComponent.contains("hostage")) {
+				//check the damage
+				String[] h = currentCellComponent.split(";");
+				if (Integer.parseInt(h[3]) < 98) {
+					//perform the kill
+					// increment the number of killings by 1 if it is an agent
+					kills++;
+					// increment Neo's damage by 20
+					neoD += 20;
+					// update grid by removing the killed agent or mutant hostage
+					for (int i = 0; i < agents.length - 1; i += 2) {
+						if (Integer.parseInt(actionDetails[1]) == Integer.parseInt(agents[i])
+								&& Integer.parseInt(actionDetails[2]) == Integer.parseInt(agents[i + 1])) {
+							// replace the x and y with negatives so that when we combine the string again
+							// we can know that this is not valid
+							agents[i] = "-1";
+							agents[i + 1] = "-1";
+							break;
+						}
+					}
+					for (int i = 0; i < mutantHostages.size(); i++) {
+						String[] mHos = mutantHostages.get(i).split(","); 
+						if (prevNode.myLoc.x == Integer.parseInt(mHos[0])
+								&& prevNode.myLoc.y == Integer.parseInt(mHos[1])) {
+							// remove the mutant hostages from the arraylist
+							mutantHostages.remove(i);
+							// also remove the hostage from the grid string
+							break;
+						}
+					}
+				}
+			}else {
+				// increment the number of killings by 1 if it is an agent
+				kills++;
+				// increment Neo's damage by 20
+				neoD += 20;
+				// update grid by removing the killed agent or mutant hostage
+				for (int i = 0; i < agents.length - 1; i += 2) {
+					if (Integer.parseInt(actionDetails[1]) == Integer.parseInt(agents[i])
+							&& Integer.parseInt(actionDetails[2]) == Integer.parseInt(agents[i + 1])) {
+						// replace the x and y with negatives so that when we combine the string again
+						// we can know that this is not valid
+						agents[i] = "-1";
+						agents[i + 1] = "-1";
+						break;
+					}
+				}
+				for (int i = 0; i < mutantHostages.size(); i++) {
+					String[] mHos = mutantHostages.get(i).split(","); 
+					if (prevNode.myLoc.x == Integer.parseInt(mHos[0])
+							&& prevNode.myLoc.y == Integer.parseInt(mHos[1])) {
+						// remove the mutant hostages from the arraylist
+						mutantHostages.remove(i);
+						// also remove the hostage from the grid string
+						break;
+					}
 				}
 			}
-			for (int i = 0; i < mutantHostages.size(); i++) {
-				String[] mHos = mutantHostages.get(i).split(","); 
-				if (prevNode.myLoc.x == Integer.parseInt(mHos[0])
-						&& prevNode.myLoc.y == Integer.parseInt(mHos[1])) {
-					// remove the mutant hostages from the arraylist
-					//mutantHostages.remove(i + 1);
-					mutantHostages.remove(i);
-					// also remove the hostage from the grid string
-					break;
-				}
-			}
-
 			break;
 		case ("Pill"):
 			// update grid method above
@@ -654,54 +670,42 @@ public abstract class GeneralSearch {
 					break;
 				}
 			}
-
 			if (neoD < 20) {
 				neoD = 0;
 			} else {
 				neoD -= 20;
 			}
-
 			for (int i = 0; i < hostages.size(); i++) {
-				// each entry in the arraylist is a string with commas splitting the x and y and
-				// damage
+				// each entry in the arraylist is a string with commas splitting the x and y and damage
 				String[] splitted2 = hostages.get(i).split(",");
 				// the third element is the damage
-				// decrement by 22 because we already incremented by 2 at the beginning of the
-				// method
 				int oldDamage2 = Integer.parseInt(splitted2[2]);
+				// check that is cannot reach below 0
 				if (oldDamage2 < 20) {
 					oldDamage2 = 0;
 				} else {
 					oldDamage2 -= 20;
 				}
 				// set the new damage
-				//if (oldDamage2 < 0) {
 				hostages.set(i, splitted2[0] + "," + splitted2[1] + "," + oldDamage2);
-					// check that is cannot reach below 0
-				//}
 			}
 			break;
 		case ("Carry"):
-			// update grid method above
 			int cAllowed = Integer.parseInt(splitted[1]);
+			//check that there is capacity
 			if (carried.size() + 1 <= cAllowed) {
-				// increment c by 1
 				for (int i = 0; i < hostages.size(); i++) {
 					String[] hos = hostages.get(i).split(",");
 					if (prevNode.myLoc.x == Integer.parseInt(hos[0])
 							&& prevNode.myLoc.y == Integer.parseInt(hos[1])) {
 						// replace the x and y with negatives so that when we combine the string again
 						// we can know that this is not valid
-
-						// set the location to that of neo
-						//hostages.remove(i + 1);
 						hostages.remove(i);
 						carried.add(Integer.parseInt(hos[2]));
 						break;
 					}
 				}
 			}
-
 			break;
 		case ("Drop"):
 			// Reset carried
@@ -714,28 +718,23 @@ public abstract class GeneralSearch {
 			// nothing changes in the grid only the overall hostage damage increases by 2
 			// and this is already handled above
 			newLocation = moveTo;
-
 			break;
 		case ("Up"):
 			// nothing changes in the grid only the overall hostage damage increases by 2
 			// and this is already handled above
 			newLocation = moveTo;
-
 			break;
 		case ("Right"):
 			// nothing changes in the grid only the overall hostage damage increases by 2
 			// and this is already handled above
 			newLocation = moveTo;
-
 			break;
 		case ("Left"):
 			// nothing changes in the grid only the overall hostage damage increases by 2
 			// and this is already handled above
 			newLocation = moveTo;
-
 			break;
 		case ("Fly"):
-			// change hostages carried location
 			// nothing changes in the grid only the overall hostage damage increases by 2
 			// and this is already handled above
 			newLocation = moveTo;
@@ -743,7 +742,6 @@ public abstract class GeneralSearch {
 		default:
 			break;
 		}
-
 		// then we need to form the new grid
 
 		for (int i = 0; i < agents.length - 1; i += 2) {
@@ -758,22 +756,18 @@ public abstract class GeneralSearch {
 			}
 		}
 		result += ";";
-
 		for (int i = 0; i < pills.length - 1; i += 2) {
 			if (pills[i] == "-1") {
 				// taken
 				continue;
 			} else {
-
 				result += pills[i] + "," + pills[i + 1];
 				if (i < pills.length - 3) {
 					result += ",";
 				}
 			}
 		}
-
 		result += ";" + pads + ";";
-
 		for (int i = 0; i < hostages.size(); i++) {
 			String[] curHos = hostages.get(i).split(",");
 			result += curHos[0] + "," + curHos[1] + "," + curHos[2];
@@ -781,7 +775,6 @@ public abstract class GeneralSearch {
 				result += ",";
 			}
 		}
-
 		// add the mutant hostages to the hostages category in the grid
 		for (int i = 0; i < mutantHostages.size(); i++) {
 			String[] curHos = mutantHostages.get(i).split(",");
@@ -794,7 +787,5 @@ public abstract class GeneralSearch {
 		TreeNode resNode = new TreeNode(prevNode, prevNodes, newLocation, neoD, result, kills, deaths, actionDetails[0],
 				prevNode.depth + 1, 0, carried);
 		return resNode;
-
 	}
-
 }
