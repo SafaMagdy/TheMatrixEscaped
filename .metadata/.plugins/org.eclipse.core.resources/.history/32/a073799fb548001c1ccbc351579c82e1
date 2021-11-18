@@ -135,20 +135,18 @@ public abstract class GeneralSearch {
 			//return the requirements of solve
 			if (isItGoal(frontTreeNode)) {
 				System.out.println("Daret ya syaaaa3");
-				result += frontPreNode.action + ",";
 				return result += "Goal";
 			}
 			
 			//TO-DO: check if this is a valid check for repeated states
 			for (int i = 0 ; i < prevNodes.size(); i++) {
-				
+				/*
 				if(frontTreeNode.myLoc.x == prevNodes.get(i).myLoc.x && 
 						frontTreeNode.myLoc.y == prevNodes.get(i).myLoc.y &&
 						compareGrids(frontTreeNode.grid, prevNodes.get(i).grid) == true
 						&& !(frontPreNode.action.equals("Drop"))
 						&& frontTreeNode.carried.size() == prevNodes.get(i).carried.size()) 
-						
-				/*
+						*/
 				String[] prevCellComp = whatInCell(prevNodes.get(i).myLoc.x,
 						prevNodes.get(i).myLoc.y, prevNodes.get(i).grid).split(";");
 				String[] currCellComp = whatInCell(frontTreeNode.myLoc.x,
@@ -158,9 +156,7 @@ public abstract class GeneralSearch {
 					frontTreeNode.myLoc.y == prevNodes.get(i).myLoc.y
 					&& (prevCellComp[0].equals(currCellComp[0]) && !(frontPreNode.action.equals("Kill")))
 					&& !(frontPreNode.action.equals("Drop"))
-					&& frontTreeNode.carried.size() == prevNodes.get(i).carried.size())
-					*/
-					 {
+					&& frontTreeNode.carried.size() == prevNodes.get(i).carried.size()) {
 						//ignore this path
 						repeated = true;
 						break;
@@ -297,7 +293,7 @@ public abstract class GeneralSearch {
 		String grid = n.grid;
 		ArrayList<String> hostages = getHostages(grid);
 		ArrayList<String> mutantHostages = getMutantHostages(grid);
-		if (mutantHostages.size() == 0 && hostages.size() == 0 && n.carried.size() == 0) {
+		if (mutantHostages.size() == 0 && hostages.size() == 0) {
 			//System.out.println(mutantHostages.size());
 			//System.out.println(hostages.size());
 			goal = true;

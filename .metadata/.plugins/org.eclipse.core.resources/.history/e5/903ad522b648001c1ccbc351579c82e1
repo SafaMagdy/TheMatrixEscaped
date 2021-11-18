@@ -135,7 +135,6 @@ public abstract class GeneralSearch {
 			//return the requirements of solve
 			if (isItGoal(frontTreeNode)) {
 				System.out.println("Daret ya syaaaa3");
-				result += frontPreNode.action + ",";
 				return result += "Goal";
 			}
 			
