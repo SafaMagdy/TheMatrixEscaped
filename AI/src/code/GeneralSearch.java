@@ -16,177 +16,42 @@ public abstract class GeneralSearch {
 	
 	//general search method==> returns the string required in the pdf
 	public static String generalSearch(String grid, String strategy, boolean visualize) {
-		String result = "";
-		//initialize everything as this is the start
-		ArrayList<TreeNode> prevNodes = new ArrayList<TreeNode>();
-		ArrayList<PreNode> preNodes = new ArrayList<PreNode>();
-		String[] splitted = grid.split(";");
-		//get Neo's starting position from the given grid
-		String[] preNeo = splitted[2].split(",");
-		Location neo = new Location(Integer.parseInt(preNeo[0]), Integer.parseInt(preNeo[1]));
-		//array to store the damages of the carried hostages and keep track of their number
-		ArrayList<Integer> carried = new ArrayList<Integer>();
-		
-		//TO-DO: cost
-		// create initial starting node
-		TreeNode start = new TreeNode(null, prevNodes, neo, 0, grid, 0, 0, "Start", 0, 0, carried);
-		PreNode startPre = new PreNode("Start", neo, start, 0);
-
-		//add to the array of previous nodes to check for repeated states
-		prevNodes.add(start);
-		
-		if (visualize) {
-			System.out.println("Starting the game with search strategy: " + strategy);
-			System.out.println("Neo is at cell: " + neo.x + "  " + neo.y);
-		}
-
-		// get the possible actions for the starting node
-		ArrayList<String> possibleActions = getPossibleActions(start);
-
-		//try to favor carry and kill mutant
-		// create the queue for search
-		Queue queue;
-		switch (strategy) {
-		case ("DF"):
-			queue = new DFQueue();
-			ArrayList<String> temp = new ArrayList<String>();
-			//organize possible actions accordingly
-			for (int i = 0; i < possibleActions.size(); i++) {
-				String[] pa = possibleActions.get(i).split(",");
-				if (pa[0].equals("Kill")) {
-					//check if mutant
-					Location affected = new Location(Integer.parseInt(pa[1]), Integer.parseInt(pa[2]));
-					if ((whatInCell(affected.x, affected.y, start.grid)).contains("hostage")) {
-						temp.add(possibleActions.remove(i));
-						i--;
-					}
-				}else if (pa[0].equals("Carry")) {
-					temp.add(possibleActions.remove(i));
-					i--;
-				}
-				else if (pa[0].equals("Drop")) {
-					temp.add(possibleActions.remove(i));
-					i--;
-				}
-			}
-			for (int i = 0; i < temp.size(); i++) {
-				possibleActions.add(temp.get(i));
-			}
-			temp = new ArrayList<String>();
-			break;
-		case ("BF"):
-			queue = new BFQueue();
-			break;
-		default:
-			//temporary
-			queue = new DFQueue();
-			break;
-		}
-	
-		for (int i = 0; i < possibleActions.size(); i++) {
-			String[] pa = possibleActions.get(i).split(",");
-			Location affected = new Location(Integer.parseInt(pa[1]), Integer.parseInt(pa[2]));
-			PreNode pn = new PreNode(pa[0], affected, start, 0);
-			queue.enqueue(pn);
-		}
-
-		if (visualize) {
-			System.out.println("The possible action(s) available at this cell is/are (as ordered in the queue): ");
-			queue.display();
-		}
-		
-		boolean failed = false;
-		String finalGrid = "";
-
-		while (!queue.queue.isEmpty()) {
-			if (visualize) {
-				System.out.println("Removing a PreNode from the queue ");
-			}
+		if (!(strategy.equals("ID"))) {
+			String result = "";
+			//initialize everything as this is the start
+			ArrayList<TreeNode> prevNodes = new ArrayList<TreeNode>();
+			ArrayList<PreNode> preNodes = new ArrayList<PreNode>();
+			String[] splitted = grid.split(";");
+			//get Neo's starting position from the given grid
+			String[] preNeo = splitted[2].split(",");
+			Location neo = new Location(Integer.parseInt(preNeo[0]), Integer.parseInt(preNeo[1]));
+			//array to store the damages of the carried hostages and keep track of their number
+			ArrayList<Integer> carried = new ArrayList<Integer>();
 			
-			PreNode frontPreNode = queue.dequeue();
+			//TO-DO: cost
+			// create initial starting node
+			TreeNode start = new TreeNode(null, prevNodes, neo, 0, grid, 0, 0, "Start", 0, 0, carried);
+			PreNode startPre = new PreNode("Start", neo, start, 0, 0);
+
+			//add to the array of previous nodes to check for repeated states
+			prevNodes.add(start);
 			
 			if (visualize) {
-				System.out.println("The prenode: " +frontPreNode.action);
-			}	
-			boolean repeated = false;
-			/*
-			for (int i = 0 ; i < prevNodes.size(); i++) {
-				if(frontPreNode.prevNode.myLoc.x == prevNodes.get(i).myLoc.x && 
-						frontPreNode.prevNode.myLoc.y == prevNodes.get(i).myLoc.y) {
-					if (!(queue.queue.isEmpty())) {
-					frontPreNode = queue.dequeue();
-					}
-				}
+				System.out.println("Starting the game with search strategy: " + strategy);
+				System.out.println("Neo is at cell: " + neo.x + "  " + neo.y);
 			}
-			*/
-			TreeNode frontTreeNode = update(
-					frontPreNode.action + "," + frontPreNode.affectedCell.x + "," + frontPreNode.affectedCell.y,
-					frontPreNode.prevNode, prevNodes);
 
-			//check if gameOver
-			if (gameOver(frontTreeNode.neoDamage)) {
-				System.out.println("Game Over at this path");
-				continue;
-				//result += "Game Over";
-				//return result;
-			}
-			
-			//check if goal
-			//return the requirements of solve
-			if (isItGoal(frontTreeNode)) {
-				System.out.println("Daret ya syaaaa3");
-				result += frontPreNode.action + ",";
-				return result += "Goal";
-			}
-			
-			//TO-DO: check if this is a valid check for repeated states
-			for (int i = 0 ; i < prevNodes.size(); i++) {
-				
-				if(frontTreeNode.myLoc.x == prevNodes.get(i).myLoc.x && 
-						frontTreeNode.myLoc.y == prevNodes.get(i).myLoc.y &&
-						compareGrids(frontTreeNode.grid, prevNodes.get(i).grid) == true
-						&& !(frontPreNode.action.equals("Drop"))
-						&& frontTreeNode.carried.size() == prevNodes.get(i).carried.size()) 
-						
-				/*
-				String[] prevCellComp = whatInCell(prevNodes.get(i).myLoc.x,
-						prevNodes.get(i).myLoc.y, prevNodes.get(i).grid).split(";");
-				String[] currCellComp = whatInCell(frontTreeNode.myLoc.x,
-						frontTreeNode.myLoc.y, frontTreeNode.grid).split(";");
-				
-					if(frontTreeNode.myLoc.x == prevNodes.get(i).myLoc.x && 
-					frontTreeNode.myLoc.y == prevNodes.get(i).myLoc.y
-					&& (prevCellComp[0].equals(currCellComp[0]) && !(frontPreNode.action.equals("Kill")))
-					&& !(frontPreNode.action.equals("Drop"))
-					&& frontTreeNode.carried.size() == prevNodes.get(i).carried.size())
-					*/
-					 {
-						//ignore this path
-						repeated = true;
-						break;
-				}
-			}
-			if (repeated == true) {
-				if (visualize) {
-					System.out.println("Following this action will lead to a repeated state so I ignored it ");
-				}
-				continue;
-			}
-			if (visualize) {
-				System.out.println("Neo was at cell: " + frontPreNode.prevNode.myLoc.x + "  " +
-						frontPreNode.prevNode.myLoc.y );
-				System.out.println(" After applying the action: " + frontPreNode.action + " Neo is now at cell: "
-						+ frontTreeNode.myLoc.x + "  " + frontTreeNode.myLoc.y);
-				System.out.println(" Neo's damage is now: " + frontTreeNode.neoDamage);
-				System.out.println(" Number of Kills: " + frontTreeNode.kills);
-				System.out.println(" Number of Deaths: " + frontTreeNode.deaths);
-				System.out.println(" Neo is carrying: " + frontTreeNode.carried.size() + " hostages");
-				System.out.println(" The grid is now: " + frontTreeNode.grid);
-			}
-			result += frontPreNode.action + ",";
-			prevNodes.add(frontTreeNode);
-			possibleActions = getPossibleActions(frontTreeNode);
-			if (strategy.equals("DF")) {
+			// get the possible actions for the starting node
+			ArrayList<String> possibleActions = getPossibleActions(start);
+
+			//try to favor carry and kill mutant
+			// create the queue for search
+			Queue queue;
+			//will be used for iterative deepening
+			int counter = 0;
+			switch (strategy) {
+			case ("DF"):
+				queue = new DFQueue();
 				ArrayList<String> temp = new ArrayList<String>();
 				//organize possible actions accordingly
 				for (int i = 0; i < possibleActions.size(); i++) {
@@ -194,7 +59,7 @@ public abstract class GeneralSearch {
 					if (pa[0].equals("Kill")) {
 						//check if mutant
 						Location affected = new Location(Integer.parseInt(pa[1]), Integer.parseInt(pa[2]));
-						if ((whatInCell(affected.x, affected.y, frontTreeNode.grid)).contains("hostage")) {
+						if ((whatInCell(affected.x, affected.y, start.grid)).contains("hostage")) {
 							temp.add(possibleActions.remove(i));
 							i--;
 						}
@@ -211,28 +76,320 @@ public abstract class GeneralSearch {
 					possibleActions.add(temp.get(i));
 				}
 				temp = new ArrayList<String>();
+				break;
+			case ("BF"):
+				queue = new BFQueue();
+				break;
+			default:
+				//temporary
+				queue = new DFQueue();
+				break;
 			}
 			
 			for (int i = 0; i < possibleActions.size(); i++) {
 				String[] pa = possibleActions.get(i).split(",");
 				Location affected = new Location(Integer.parseInt(pa[1]), Integer.parseInt(pa[2]));
-				PreNode pn = new PreNode(pa[0], affected, frontTreeNode, 0);
+				PreNode pn = new PreNode(pa[0], affected, start, 0, 0);
 				queue.enqueue(pn);
 			}
+
+			if (visualize) {
+				System.out.println("The possible action(s) available at this cell is/are (as ordered in the queue): ");
+				queue.display();
+			}
 			
+			boolean failed = false;
+			String finalGrid = "";
+
+			while (!queue.queue.isEmpty()) {
+				if (visualize) {
+					System.out.println("Removing a PreNode from the queue ");
+				}
+				
+				PreNode frontPreNode = queue.dequeue();
+				
+				if (visualize) {
+					System.out.println("The prenode: " +frontPreNode.action);
+				}	
+				boolean repeated = false;
+				/*
+				for (int i = 0 ; i < prevNodes.size(); i++) {
+					if(frontPreNode.prevNode.myLoc.x == prevNodes.get(i).myLoc.x && 
+							frontPreNode.prevNode.myLoc.y == prevNodes.get(i).myLoc.y) {
+						if (!(queue.queue.isEmpty())) {
+						frontPreNode = queue.dequeue();
+						}
+					}
+				}
+				*/
+				TreeNode frontTreeNode = update(
+						frontPreNode.action + "," + frontPreNode.affectedCell.x + "," + frontPreNode.affectedCell.y,
+						frontPreNode.prevNode, prevNodes);
+
+				//check if gameOver
+				if (gameOver(frontTreeNode.neoDamage)) {
+					System.out.println("Game Over at this path");
+					continue;
+					//result += "Game Over";
+					//return result;
+				}
+				
+				//check if goal
+				//return the requirements of solve
+				if (isItGoal(frontTreeNode)) {
+					System.out.println("Daret ya syaaaa3");
+					result += frontPreNode.action + ",";
+					return result += "Goal";
+				}
+				
+				//TO-DO: check if this is a valid check for repeated states
+				for (int i = 0 ; i < prevNodes.size(); i++) {
+					
+					if(frontTreeNode.myLoc.x == prevNodes.get(i).myLoc.x && 
+							frontTreeNode.myLoc.y == prevNodes.get(i).myLoc.y &&
+							compareGrids(frontTreeNode.grid, prevNodes.get(i).grid) == true
+							&& !(frontPreNode.action.equals("Drop"))
+							&& frontTreeNode.carried.size() == prevNodes.get(i).carried.size()) 
+							
+					/*
+					String[] prevCellComp = whatInCell(prevNodes.get(i).myLoc.x,
+							prevNodes.get(i).myLoc.y, prevNodes.get(i).grid).split(";");
+					String[] currCellComp = whatInCell(frontTreeNode.myLoc.x,
+							frontTreeNode.myLoc.y, frontTreeNode.grid).split(";");
+					
+						if(frontTreeNode.myLoc.x == prevNodes.get(i).myLoc.x && 
+						frontTreeNode.myLoc.y == prevNodes.get(i).myLoc.y
+						&& (prevCellComp[0].equals(currCellComp[0]) && !(frontPreNode.action.equals("Kill")))
+						&& !(frontPreNode.action.equals("Drop"))
+						&& frontTreeNode.carried.size() == prevNodes.get(i).carried.size())
+						*/
+						 {
+							//ignore this path
+							repeated = true;
+							break;
+					}
+				}
+				if (repeated == true) {
+					if (visualize) {
+						System.out.println("Following this action will lead to a repeated state so I ignored it ");
+					}
+					continue;
+				}
+				if (visualize) {
+					System.out.println("Neo was at cell: " + frontPreNode.prevNode.myLoc.x + "  " +
+							frontPreNode.prevNode.myLoc.y );
+					System.out.println(" After applying the action: " + frontPreNode.action + " Neo is now at cell: "
+							+ frontTreeNode.myLoc.x + "  " + frontTreeNode.myLoc.y);
+					System.out.println(" Neo's damage is now: " + frontTreeNode.neoDamage);
+					System.out.println(" Number of Kills: " + frontTreeNode.kills);
+					System.out.println(" Number of Deaths: " + frontTreeNode.deaths);
+					System.out.println(" Neo is carrying: " + frontTreeNode.carried.size() + " hostages");
+					System.out.println(" The grid is now: " + frontTreeNode.grid);
+				}
+				result += frontPreNode.action + ",";
+				prevNodes.add(frontTreeNode);
+				possibleActions = getPossibleActions(frontTreeNode);
+				if (strategy.equals("DF")) {
+					ArrayList<String> temp = new ArrayList<String>();
+					//organize possible actions accordingly
+					for (int i = 0; i < possibleActions.size(); i++) {
+						String[] pa = possibleActions.get(i).split(",");
+						if (pa[0].equals("Kill")) {
+							//check if mutant
+							Location affected = new Location(Integer.parseInt(pa[1]), Integer.parseInt(pa[2]));
+							if ((whatInCell(affected.x, affected.y, frontTreeNode.grid)).contains("hostage")) {
+								temp.add(possibleActions.remove(i));
+								i--;
+							}
+						}else if (pa[0].equals("Carry")) {
+							temp.add(possibleActions.remove(i));
+							i--;
+						}
+						else if (pa[0].equals("Drop")) {
+							temp.add(possibleActions.remove(i));
+							i--;
+						}
+					}
+					for (int i = 0; i < temp.size(); i++) {
+						possibleActions.add(temp.get(i));
+					}
+					temp = new ArrayList<String>();
+				}
+				
+				for (int i = 0; i < possibleActions.size(); i++) {
+					String[] pa = possibleActions.get(i).split(",");
+					Location affected = new Location(Integer.parseInt(pa[1]), Integer.parseInt(pa[2]));
+					PreNode pn = new PreNode(pa[0], affected, frontTreeNode, 0, 0);
+					queue.enqueue(pn);
+				}
+				
+				if (queue.queue.isEmpty()) {
+					System.out.println("failed");
+					result+="Failed";
+					return result;
+				}
+				finalGrid = frontTreeNode.grid;
+			}
 			if (queue.queue.isEmpty()) {
 				System.out.println("failed");
 				result+="Failed";
 				return result;
 			}
-			finalGrid = frontTreeNode.grid;
-		}
-		if (queue.queue.isEmpty()) {
-			System.out.println("failed");
-			result+="Failed";
 			return result;
+		}else {
+			String result = "";
+			
+			int i = 0;
+			while (true) {
+				//initialize everything as this is the start
+				System.out.println("Start again");
+				ArrayList<TreeNode> prevNodes = new ArrayList<TreeNode>();
+				ArrayList<PreNode> preNodes = new ArrayList<PreNode>();
+				String[] splitted = grid.split(";");
+				//get Neo's starting position from the given grid
+				String[] preNeo = splitted[2].split(",");
+				Location neo = new Location(Integer.parseInt(preNeo[0]), Integer.parseInt(preNeo[1]));
+				//array to store the damages of the carried hostages and keep track of their number
+				ArrayList<Integer> carried = new ArrayList<Integer>();
+				
+				//TO-DO: cost
+				// create initial starting node
+				TreeNode start = new TreeNode(null, prevNodes, neo, 0, grid, 0, 0, "Start", 0, 0, carried);
+				PreNode startPre = new PreNode("Start", neo, start, 0, 0 );
+				//add to the array of previous nodes to check for repeated states
+				prevNodes.add(start);
+				
+				if (visualize) {
+					System.out.println("Starting the game with search strategy: " + strategy);
+					System.out.println("Neo is at cell: " + neo.x + "  " + neo.y);
+				}
+				
+				// get the possible actions for the starting node
+				ArrayList<String> possibleActions = getPossibleActions(start);
+
+				//try to favor carry and kill mutant
+				// create the queue for search
+				Queue queue = new DFQueue();
+				boolean stop = false;
+				for (int j = 0; j < possibleActions.size(); j++) {
+					String[] pa = possibleActions.get(j).split(",");
+					Location affected = new Location(Integer.parseInt(pa[1]), Integer.parseInt(pa[2]));
+					PreNode pn = new PreNode(pa[0], affected, start, 0, 0 );
+					if (pn.depth > i) {
+						System.out.println(pn.depth);
+						stop = true;
+						break;
+					}
+					queue.enqueue(pn);
+				}
+				if (stop) {
+					i++;
+					continue;
+				}
+				if (visualize) {
+					System.out.println("The possible action(s) available at this cell is/are (as ordered in the queue): ");
+					queue.display();
+				}
+				
+				boolean failed = false;
+				String finalGrid = "";
+				while (!queue.queue.isEmpty()) {
+					if (visualize) {
+						System.out.println("Removing a PreNode from the queue ");
+					}
+					
+					PreNode frontPreNode = queue.dequeue();
+					
+					if (visualize) {
+						System.out.println("The prenode: " +frontPreNode.action + frontPreNode.depth );
+					}	
+					boolean repeated = false;
+					TreeNode frontTreeNode = update(
+							frontPreNode.action + "," + frontPreNode.affectedCell.x + "," + frontPreNode.affectedCell.y,
+							frontPreNode.prevNode, prevNodes);
+
+					//check if gameOver
+					if (gameOver(frontTreeNode.neoDamage)) {
+						System.out.println("Game Over at this path");
+						continue;
+						//result += "Game Over";
+						//return result;
+					}
+					
+					//check if goal
+					//return the requirements of solve
+					if (isItGoal(frontTreeNode)) {
+						System.out.println("Daret ya syaaaa3");
+						result += frontPreNode.action + frontPreNode.depth+ ",";
+						return result += "Goal";
+					}
+					
+					//TO-DO: check if this is a valid check for repeated states
+					for (int j = 0 ; j < prevNodes.size(); j++) {
+						
+						if(frontTreeNode.myLoc.x == prevNodes.get(j).myLoc.x && 
+								frontTreeNode.myLoc.y == prevNodes.get(j).myLoc.y &&
+								compareGrids(frontTreeNode.grid, prevNodes.get(j).grid) == true
+								&& !(frontPreNode.action.equals("Drop"))
+								&& frontTreeNode.carried.size() == prevNodes.get(j).carried.size()) 
+							 {
+								//ignore this path
+								repeated = true;
+								break;
+						}
+					}
+					if (repeated == true) {
+						if (visualize) {
+							System.out.println("Following this action will lead to a repeated state so I ignored it ");
+						}
+						continue;
+					}
+					if (visualize) {
+						System.out.println("Neo was at cell: " + frontPreNode.prevNode.myLoc.x + "  " +
+								frontPreNode.prevNode.myLoc.y );
+						System.out.println(" After applying the action: " + frontPreNode.action + " Neo is now at cell: "
+								+ frontTreeNode.myLoc.x + "  " + frontTreeNode.myLoc.y);
+						System.out.println(" Neo's damage is now: " + frontTreeNode.neoDamage);
+						System.out.println(" Number of Kills: " + frontTreeNode.kills);
+						System.out.println(" Number of Deaths: " + frontTreeNode.deaths);
+						System.out.println(" Neo is carrying: " + frontTreeNode.carried.size() + " hostages");
+						System.out.println(" The grid is now: " + frontTreeNode.grid);
+					}
+					result += frontPreNode.action + frontPreNode.depth+ ",";
+					prevNodes.add(frontTreeNode);
+					possibleActions = getPossibleActions(frontTreeNode);
+					for (int j = 0; j < possibleActions.size(); j++) {
+						String[] pa = possibleActions.get(j).split(",");
+						Location affected = new Location(Integer.parseInt(pa[1]), Integer.parseInt(pa[2]));
+						PreNode pn = new PreNode(pa[0], affected, frontTreeNode, 0, 0);
+						if (pn.depth > i) {
+							stop = true;
+							break;
+						}
+						queue.enqueue(pn);
+					}
+					if (stop) {
+						//i++;
+						break;
+					}
+					
+					if (queue.queue.isEmpty()) {
+						System.out.println("failed");
+						result+="Failed";
+						return result;
+					}
+					finalGrid = frontTreeNode.grid;
+				}
+				i++;
+				if (queue.queue.isEmpty()) {
+					System.out.println("failed");
+					result+="Failed";
+					return result;
+				}			
+			}
+			//return result;
 		}
-		return result;
+		
 	}
 	
 	//returns true if neo is dead, false otherwise
@@ -295,9 +452,13 @@ public abstract class GeneralSearch {
 	public static boolean isItGoal(TreeNode n) {
 		boolean goal = false;
 		String grid = n.grid;
+		String[] splitted = grid.split(";");
+		// array that consists of (x,y) of the telephone booth
+		String[] telephone = splitted[3].split(",");
+		Location tb = new Location(Integer.parseInt(telephone[0]), Integer.parseInt(telephone[1]));
 		ArrayList<String> hostages = getHostages(grid);
 		ArrayList<String> mutantHostages = getMutantHostages(grid);
-		if (mutantHostages.size() == 0 && hostages.size() == 0 && n.carried.size() == 0) {
+		if (mutantHostages.size() == 0 && hostages.size() == 0 && n.carried.size() == 0 && n.myLoc.equals(tb)) {
 			//System.out.println(mutantHostages.size());
 			//System.out.println(hostages.size());
 			goal = true;
@@ -866,6 +1027,8 @@ public abstract class GeneralSearch {
 				result += ",";
 			}
 		}
+		
+		
 
 		TreeNode resNode = new TreeNode(prevNode, prevNodes, newLocation, neoD, result, kills, deaths, actionDetails[0],
 				prevNode.depth + 1, 0, carried);

@@ -13,6 +13,7 @@ public class BFQueue extends Queue{
 	public void enqueue(PreNode pn) {
 		super.queue.add(super.queue.size(), pn);
 		
+		
 	}
 
 }
