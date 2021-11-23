@@ -1,5 +1,0 @@
-package code.Queue;
-
-public abstract class Queue {
-
-}

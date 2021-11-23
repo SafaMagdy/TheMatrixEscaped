@@ -314,9 +314,10 @@ public class Matrix extends GeneralSearch{
 	public static void main(String[] args) {
 
 		String grid = genGrid();
+		String grid0 = "5,5;2;4,3;2,1;2,0,0,4,0,3,0,1;3,1,3,2;4,4,3,3,3,3,4,4;4,0,17,1,2,54,0,0,46,4,1,22";
 		//String grid = "5,5;2;0,4;1,4;0,1,1,1,2,1,3,1,3,3,3,4;1,0,2,4;0,3,4,3,4,3,0,3;0,0,30,3,0,80,4,4,80";
 		System.out.println(grid);
-		System.out.println(solve(grid, "ID", true));
+		System.out.println(solve(grid0, "DF", true));
 		//System.out.println(solve(grid, "BF", true));
 	}
 
