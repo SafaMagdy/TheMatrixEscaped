@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="No Solution"/>
+		<item key="selection" value="prevNode.carried"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="No Solution"/>
+			<item value="prevNode.carried"/>
+			<item value="carried"/>
+			<item value="prevNode"/>
 			<item value="drop"/>
+			<item value="No Solution"/>
 			<item value="dropped"/>
 			<item value="m10"/>
 			<item value="deaths"/>
@@ -20,9 +23,6 @@
 			<item value="lower"/>
 			<item value="whatInCell"/>
 			<item value="possible"/>
-			<item value="grid"/>
-			<item value="Kill"/>
-			<item value="g,"/>
 		</list>
 		<list key="replacehistory">
 		</list>

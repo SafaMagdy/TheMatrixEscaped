@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="TestMatrixPublic" project="AI" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="tests.TestMatrixPublic" time="0.626" displayname="TestMatrixPublic" uniqueid="[engine:junit-vintage]/[runner:tests.TestMatrixPublic]">
-    <testcase name="testa9" classname="tests.TestMatrixPublic" time="0.626" displayname="testa9" uniqueid="[engine:junit-vintage]/[runner:tests.TestMatrixPublic]/[test:testa9(tests.TestMatrixPublic)]"/>
-  </testsuite>
-</testrun>
