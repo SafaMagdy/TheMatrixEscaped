@@ -8143,3 +8143,1264 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2021-11-24 13:16:38.717 -----------------------------------------------
+eclipse.buildId=4.20.0.I20210611-1600
+java.version=16.0.1
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.jface 2 0 2021-11-24 13:16:49.764
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2021-11-24 13:16:49.764
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@452ec287,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@41404aa2,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.egit.ui 2 0 2021-11-24 13:16:52.984
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\safam'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.jdt.core 4 4 2021-11-24 19:10:51.655
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package tests;
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import code.Matrix;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
+public class TestMatrixPublic {
+	
+	String grid0 = "5,5;2;3,4;1,2;0,3,1,4;2,3;4,4,0,2,0,2,4,4;2,2,91,2,4,62";
+	String grid1 = "5,5;1;1,4;1,0;0,4;0,0,2,2;3,4,4,2,4,2,3,4;0,2,32,0,1,38";
+	String grid2 = "5,5;2;3,2;0,1;4,1;0,3;1,2,4,2,4,2,1,2,0,4,3,0,3,0,0,4;1,1,77,3,4,34";
+	String grid3 = "5,5;1;0,4;4,4;0,3,1,4,2,1,3,0,4,1;4,0;2,4,3,4,3,4,2,4;0,2,98,1,2,98,2,2,98,3,2,98,4,2,98,2,0,1";
+	String grid4 = "5,5;1;0,4;4,4;0,3,1,4,2,1,3,0,4,1;4,0;2,4,3,4,3,4,2,4;0,2,98,1,2,98,2,2,98,3,2,98,4,2,98,2,0,98,1,0,98";
+	String grid5 = "5,5;2;0,4;3,4;3,1,1,1;2,3;3,0,0,1,0,1,3,0;4,2,54,4,0,85,1,0,43";
+	String grid6 = "5,5;2;3,0;4,3;2,1,2,2,3,1,0,0,1,1,4,2,3,3,1,3,0,1;2,4,3,2,3,4,0,4;4,4,4,0,4,0,4,4;1,4,57,2,0,46";
+	String grid7 = "5,5;3;1,3;4,0;0,1,3,2,4,3,2,4,0,4;3,4,3,0,4,2;1,4,1,2,1,2,1,4,0,3,1,0,1,0,0,3;4,4,45,3,3,12,0,2,88";
+	String grid8 = "5,5;2;4,3;2,1;2,0,0,4,0,3,0,1;3,1,3,2;4,4,3,3,3,3,4,4;4,0,17,1,2,54,0,0,46,4,1,22";
+	String grid9 = "5,5;2;0,4;1,4;0,1,1,1,2,1,3,1,3,3,3,4;1,0,2,4;0,3,4,3,4,3,0,3;0,0,30,3,0,80,4,4,80";
+	String grid10 = "5,5;4;1,1;4,1;2,4,0,4,3,2,3,0,4,2,0,1,1,3,2,1;4,0,4,4,1,0;2,0,0,2,0,2,2,0,2;0,0,62,4,3,45,3,3,39,2,3,40";
+	
+	/*
+	@Test(timeout = 10000)
+	public void testa0() throws Exception {
+		String solution = Matrix.solve(grid0, "BF", false);
+		solution = solution.replace(" ", "");
+		System.out.println(solution);
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid0, solution));
+		//passed
+	}
+	*/
+	/*
+	@Test(timeout = 10000)
+	public void testa1() throws Exception {
+		String solution = Matrix.solve(grid1, "BF", false);
+		solution = solution.replace(" ", "");
+		System.out.println(solution);
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid1, solution));
+		//one extra death because of error in calculating the damage of the carried
+	}
+	*/
+	
+	@Test(timeout = 10000)
+	public void testa2() throws Exception {
+		String solution = Matrix.solve(grid2, "BF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid2, solution));
+	}
+	
+	@T
+	est(timeout = 10000)
+	public void testa3() throws Exception {
+		String solution = Matrix.solve(grid3, "BF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid3, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testa4() throws Exception {
+		String solution = Matrix.solve(grid4, "BF", false);
+		assertTrue("The output actions do not lead to a goal state.", solution.equals("No Solution"));
+	}
+	
+	@Test(timeout = 10000)
+	public void testa5() throws Exception {
+		String solution = Matrix.solve(grid5, "BF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid5, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testa6() throws Exception {
+		String solution = Matrix.solve(grid6, "BF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid6, solution));
+	}
+	
+	@Test(timeout = 30000)
+	public void testa7() throws Exception {
+		String solution = Matrix.solve(grid7, "BF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid7, solution));
+	}
+	
+	@Test(timeout = 30000)
+	public void testa8() throws Exception {
+		String solution = Matrix.solve(grid8, "BF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid8, solution));
+	}
+	
+	@Test(timeout = 30000)
+	public void testa9() throws Exception {
+		String solution = Matrix.solve(grid9, "BF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid9, solution));
+	}
+	
+	@Test(timeout = 60000)
+	public void testaz10() throws Exception {
+		String solution = Matrix.solve(grid10, "BF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid10, solution));
+	}
+
+	@Test(timeout = 10000)
+	public void testb0() throws Exception {
+		String solution = Matrix.solve(grid0, "DF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid0, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testb1() throws Exception {
+		String solution = Matrix.solve(grid1, "DF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid1, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testb2() throws Exception {
+		String solution = Matrix.solve(grid2, "DF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid2, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testb3() throws Exception {
+		String solution = Matrix.solve(grid3, "DF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid3, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testb4() throws Exception {
+		String solution = Matrix.solve(grid4, "DF", false);
+		assertTrue("The output actions do not lead to a goal state.", solution.equals("No Solution"));
+	}
+	
+	@Test(timeout = 10000)
+	public void testb5() throws Exception {
+		String solution = Matrix.solve(grid5, "DF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid5, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testb6() throws Exception {
+		String solution = Matrix.solve(grid6, "DF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid6, solution));
+	}
+	
+	@Test(timeout = 30000)
+	public void testb7() throws Exception {
+		String solution = Matrix.solve(grid7, "DF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.",applyPlan(grid7, solution) );
+	}
+	
+	@Test(timeout = 30000)
+	public void testb8() throws Exception {
+		String solution = Matrix.solve(grid8, "DF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.",applyPlan(grid8, solution));
+	}
+	
+	@Test(timeout = 30000)
+	public void testb9() throws Exception {
+		String solution = Matrix.solve(grid9, "DF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid9, solution));
+	}
+	
+	@Test(timeout = 60000)
+	public void testbz10() throws Exception {
+		String solution = Matrix.solve(grid10, "DF", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid10, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testc0() throws Exception {
+		String solution = Matrix.solve(grid0, "UC", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid0, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testc1() throws Exception {
+		String solution = Matrix.solve(grid1, "UC", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid1, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testc2() throws Exception {
+		String solution = Matrix.solve(grid2, "UC", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid2, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testc3() throws Exception {
+		String solution = Matrix.solve(grid3, "UC", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid3, solution));
+	}
+	
+	
+	@Test(timeout = 10000)
+	public void testc4() throws Exception {
+		String solution = Matrix.solve(grid4, "UC", false);
+		assertTrue("The output actions do not lead to a goal state.", solution.equals("No Solution"));
+	}
+	
+	@Test(timeout = 10000)
+	public void testc5() throws Exception {
+		String solution = Matrix.solve(grid5, "UC", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid5, solution));
+	}
+	
+	@Test(timeout = 30000)
+	public void testc6() throws Exception {
+		String solution = Matrix.solve(grid6, "UC", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid6, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testc7() throws Exception {
+		String solution = Matrix.solve(grid7, "UC", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.",  applyPlan(grid7, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testc8() throws Exception {
+		String solution = Matrix.solve(grid8, "UC", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid8, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testc9() throws Exception {
+		String solution = Matrix.solve(grid9, "UC", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid9, solution));
+	}
+	
+	
+	@Test(timeout = 10000)
+	public void testd0() throws Exception {
+		String solution = Matrix.solve(grid0, "ID", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid0, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testd1() throws Exception {
+		String solution = Matrix.solve(grid1, "ID", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid1, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testd2() throws Exception {
+		String solution = Matrix.solve(grid2, "ID", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid2, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testd3() throws Exception {
+		String solution = Matrix.solve(grid3, "ID", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid3, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testd5() throws Exception {
+		String solution = Matrix.solve(grid5, "ID", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid5, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testd6() throws Exception {
+		String solution = Matrix.solve(grid6, "ID", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid6, solution));
+	}
+	
+
+	@Test(timeout = 10000)
+	public void teste0() throws Exception {
+		String solution = Matrix.solve(grid0, "GR1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid0, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void teste1() throws Exception {
+		String solution = Matrix.solve(grid1, "GR1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid1, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void teste2() throws Exception {
+		String solution = Matrix.solve(grid2, "GR1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid2, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void teste3() throws Exception {
+		String solution = Matrix.solve(grid3, "GR1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid3, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void teste4() throws Exception {
+		String solution = Matrix.solve(grid4, "GR1", false);
+		assertTrue("The output actions do not lead to a goal state.", solution.equals("No Solution"));
+	}
+	
+	@Test(timeout = 10000)
+	public void teste5() throws Exception {
+		String solution = Matrix.solve(grid5, "GR1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid5, solution));
+	}
+	
+	@Test(timeout = 30000)
+	public void teste6() throws Exception {
+		String solution = Matrix.solve(grid6, "GR1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid6, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void teste7() throws Exception {
+		String solution = Matrix.solve(grid7, "GR1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid7, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void teste8() throws Exception {
+		String solution = Matrix.solve(grid8, "GR1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid8, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void teste9() throws Exception {
+		String solution = Matrix.solve(grid9, "GR1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid9, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testf0() throws Exception {
+		String solution = Matrix.solve(grid0, "GR2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid0, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testf1() throws Exception {
+		String solution = Matrix.solve(grid1, "GR2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid1, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testf2() throws Exception {
+		String solution = Matrix.solve(grid2, "GR2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid2, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testf3() throws Exception {
+		String solution = Matrix.solve(grid3, "GR2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid3, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testf4() throws Exception {
+		String solution = Matrix.solve(grid4, "GR2", false);
+		assertTrue("The output actions do not lead to a goal state.", solution.equals("No Solution"));
+	}
+	
+	@Test(timeout = 10000)
+	public void testf5() throws Exception {
+		String solution = Matrix.solve(grid5, "GR2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid5, solution));
+	}
+	
+	@Test(timeout = 30000)
+	public void testf6() throws Exception {
+		String solution = Matrix.solve(grid6, "GR2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid6, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testf7() throws Exception {
+		String solution = Matrix.solve(grid7, "GR2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid7, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testf8() throws Exception {
+		String solution = Matrix.solve(grid8, "GR2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid8, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testf9() throws Exception {
+		String solution = Matrix.solve(grid9, "GR2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid9, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testg0() throws Exception {
+		String solution = Matrix.solve(grid0, "AS1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid0, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testg1() throws Exception {
+		String solution = Matrix.solve(grid1, "AS1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid1, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testg2() throws Exception {
+		String solution = Matrix.solve(grid2, "AS1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid2, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testg3() throws Exception {
+		String solution = Matrix.solve(grid3, "AS1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid3, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testg4() throws Exception {
+		String solution = Matrix.solve(grid4, "AS1", false);
+		assertTrue("The output actions do not lead to a goal state.", solution.equals("No Solution"));
+	}
+	
+	@Test(timeout = 10000)
+	public void testg5() throws Exception {
+		String solution = Matrix.solve(grid5, "AS1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid5, solution));
+	}
+	
+	@Test(timeout = 30000)
+	public void testg6() throws Exception {
+		String solution = Matrix.solve(grid6, "AS1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid6, solution));
+	}
+
+	@Test(timeout = 400000)
+	public void testg7() throws Exception {
+		String solution = Matrix.solve(grid7, "AS1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid7, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testg8() throws Exception {
+		String solution = Matrix.solve(grid8, "AS1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid8, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testg9() throws Exception {
+		String solution = Matrix.solve(grid9, "AS1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid9, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testgz10() throws Exception {
+		String solution = Matrix.solve(grid10, "AS1", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid10, solution));
+	}
+
+	
+	@Test(timeout = 10000)
+	public void testh0() throws Exception {
+		String solution = Matrix.solve(grid0, "AS2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid0, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testh1() throws Exception {
+		String solution = Matrix.solve(grid1, "AS2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid1, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testh2() throws Exception {
+		String solution = Matrix.solve(grid2, "AS2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid2, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testh3() throws Exception {
+		String solution = Matrix.solve(grid3, "AS2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid3, solution));
+	}
+	
+	@Test(timeout = 10000)
+	public void testh4() throws Exception {
+		String solution = Matrix.solve(grid4, "AS2", false);
+		assertTrue("The output actions do not lead to a goal state.", solution.equals("No Solution"));
+	}
+	
+	@Test(timeout = 10000)
+	public void testh5() throws Exception {
+		String solution = Matrix.solve(grid5, "AS2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid5, solution));
+	}
+	
+	@Test(timeout = 30000)
+	public void testh6() throws Exception {
+		String solution = Matrix.solve(grid6, "AS2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid6, solution));
+	}
+
+	@Test(timeout = 400000)
+	public void testh7() throws Exception {
+		String solution = Matrix.solve(grid7, "AS2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid7, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testh8() throws Exception {
+		String solution = Matrix.solve(grid8, "AS2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid8, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testh9() throws Exception {
+		String solution = Matrix.solve(grid9, "AS2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid9, solution));
+	}
+	
+	@Test(timeout = 400000)
+	public void testhz10() throws Exception {
+		String solution = Matrix.solve(grid10, "AS2", false);
+		solution = solution.replace(" ", "");
+		assertTrue("The output actions do not lead to a goal state.", applyPlan(grid10, solution));
+	}
+	*/
+	
+	 static class TH {
+			int m;
+			int n;
+			int x10;
+			int x11;
+			int x00;
+			int x01;
+			int m1;
+			int m2;
+			int m3;
+			ArrayList<String> xyz;
+			ArrayList<String> xyzw;
+			ArrayList<String> m4;
+			HashMap<String,String> m5;
+			HashMap<String,Integer> m7;
+			HashMap<String,Integer> m6;
+			ArrayList<String> m10;
+			int m23;
+			boolean ll;
+
+			public TH(int m, int n, int x10, int x11, int x00, int x01, int m1,
+					ArrayList<String> xyz,ArrayList<String> m4,
+					HashMap<String, String> m5, HashMap<String, Integer> m7) {
+				this.m = m;
+				this.n = n;
+				this.x10 = x10;
+				this.x11 = x11;
+				this.x00 = x00;
+				this.x01 = x01;
+				this.m1 = m1;
+				this.m2 = 0;
+				this.m3 = 0;
+				this.xyz = xyz;
+				this.xyzw = new ArrayList<String>();
+				this.m4 = m4;
+				this.m5 = m5;
+				this.m7 = m7;
+				this.m6 = new HashMap<String,Integer>();
+				this.m10 = new ArrayList<String>();
+				this.m23 = 0;
+				this.ll = false;
+			}
+
+			public String f1(int x, int y) {
+				return x+","+y;
+			}
+			
+			public boolean f12(int x, int y) {
+				return x <0 || x>m || y<0 || y>n ? false: true;
+			}
+			
+			public ArrayList<String> f52(int x, int y) {
+				ArrayList<String> result = new ArrayList<String>();
+				if(f12(x-1,y))
+					result.add((x-1)+","+y);
+				if(f12(x+1,y))
+					result.add((x+1)+","+y);
+				if(f12(x,y-1))
+					result.add(x+","+(y-1));
+				if(f12(x,y+1))
+					result.add(x+","+(y+1));
+				return result;
+			}
+
+			public boolean f42(int x, int y) {
+				String ln = f1(x,y);
+				if(this.xyz.contains(ln) || this.xyzw.contains(ln)
+						|| (this.m7.containsKey(ln) && this.m7.get(ln)>97))
+					return false;
+				return true;	
+			}
+			
+			public boolean f2() { 
+				if(!f42(x00-1, x01)) return false;
+				if(x00 - 1 >= 0)
+					x00--;
+				ll2();
+				return true;
+			}
+			
+			public boolean f3() {
+				if(!f42(x00+1, x01)) return false;
+				if(x00 + 1 < this.m)
+					x00++;
+				ll2();
+				return true;
+					
+			}
+			
+			public boolean applyLeft() {
+				if(!f42(x00, x01-1)) return false;
+				if(x01 - 1 >= 0)
+					x01--;
+				ll2();
+				return true;
+
+			}
+			
+			public boolean f4() {
+				if(!f42(x00, x01+1)) return false;
+				if(x01 + 1 < this.n)
+					x01++;
+				ll2();
+				return true;
+			}
+			
+			public boolean f100() {
+				ArrayList<String> acdc = f52(x00,x01);
+				if(acdc.size()>0) {
+					for(String led:acdc) {
+						if(xyz.contains(led)) {
+							xyz.remove(led);
+							this.m23++;
+						}
+						if(xyzw.contains(led)) {
+							xyzw.remove(led);
+							this.m23++;
+						}
+					}
+					m3 +=20;
+					if(m3 == 100)
+						ll = true;
+					
+					ll2();
+					return true;
+				}
+				return false;
+				
+			}
+			
+			public boolean f209() {
+				String floyd = f1(x00,x01);
+				if(m2 <= m1) {
+					if(m7.containsKey(floyd)) {
+						m2++;
+						m6.put(floyd, m7.get(floyd));
+						m7.remove(floyd);
+						ll2();
+						return true;
+					}
+				}
+				
+				return false;
+			}
+			
+			public boolean f220() {
+				if(x00 == x10 && x01 == x11 && m2 >0) {
+					m2 = 0;
+					m6.clear();
+					ll2();
+					return true;
+				}
+				return false;
+			}
+			
+			public boolean f320() {
+				String floyd = f1(x00,x01);
+				if(this.m5.containsKey(floyd)) {
+					String tofloyd = this.m5.get(floyd);
+					String [] s = tofloyd.split(",");
+					x00 = Integer.parseInt(s[0]);
+					x01 = Integer.parseInt(s[1]);
+					ll2();
+					return true;
+				}
+				return false;
+				
+			}
+			
+			public boolean f32() {
+				if(this.m4.contains(f1(x00,x01))) {
+					m3 = (m3 -20 <0) ? 0 : m3 -20;
+					for(String abc: m7.keySet()) {
+						int beatles = m7.get(abc)-20 <0? 0 : m7.get(abc)-20;
+						m7.put(abc,beatles);
+					}
+					this.m4.remove(f1(x00,x01));
+					return true;
+				}
+				return false;
+				
+			}
+			
+			public void ll2() {
+				
+				HashMap<String,Integer> newm7 = new HashMap<String,Integer>();
+				
+				for(String abc: m6.keySet()) {
+					int beatles = m6.get(abc)+2;
+					if(beatles >= 100)  {
+						this.edu(abc);
+						m6.put(abc,100);
+					}
+					else 
+						m6.put(abc,beatles);
+				  }
+				
+				for(String abc: m7.keySet()) {
+					int beatles = m7.get(abc)+2;
+					if(beatles >= 100) {
+						this.edu(abc);
+						xyzw.add(abc);
+					}
+					else 
+						newm7.put(abc,beatles);
+				}
+				this.m7 = newm7;
+			}
+			
+			public void edu(String abc) {
+				if(!this.m10.contains(abc))
+					this.m10.add(abc);
+			}
+			
+			public boolean grace() {	
+				return !this.ll && this.m3<100 && this.m7.size() == 0 
+						&& this.xyzw.size() == 0 && this.x00 == this.x10
+						&& this.x01 == this.x11;
+			}
+	 }
+
+			
+			public static boolean applyPlan(String grid, String solution) {
+				String[] solutionArray  = solution.split(";");
+				String plan = solutionArray[0];
+				int blue = Integer.parseInt(solutionArray[1]);
+				int doors = Integer.parseInt(solutionArray[2]);
+				
+				plan.replace(" ", "");
+				plan.replace("\n", "");
+				plan.replace("\r", "");
+				plan.replace("\n\r", "");
+				plan.replace("\t", "");
+
+				String[] actions = plan.split(",");
+				
+				String[] gridArray=  grid.split(";");
+				String[] dimensions = gridArray[0].split(",");
+				int m = Integer.parseInt(dimensions[0]);
+				int n = Integer.parseInt(dimensions[1]);
+				
+				int capacity = Integer.parseInt(gridArray[1]);
+				
+				String[] neo = gridArray[2].split(",");
+				int x00 = Integer.parseInt(neo[0]);
+				int x01 = Integer.parseInt(neo[1]);
+				
+				String[] booth = gridArray[3].split(",");
+				int x10 = Integer.parseInt(booth[0]);
+				int x11 = Integer.parseInt(booth[1]);
+				
+				String[] ag = gridArray[4].split(",");
+				ArrayList<String> xyz = new ArrayList<String>();
+				for(int i = 0;i< ag.length -1; i+=2) {
+					xyz.add(ag[i]+","+ag[i+1]);
+				}
+				
+				String[] pl = gridArray[5].split(",");
+				ArrayList<String> m4 = new ArrayList<String>();
+				for(int i = 0;i< pl.length -1; i+=2) {
+					m4.add(pl[i]+","+pl[i+1]);
+				}
+
+				String[] pas = gridArray[6].split(",");
+				HashMap<String,String> m5 = new HashMap<String,String>();
+				for(int i = 0;i< pas.length -3; i+=4) {
+					m5.put(pas[i]+","+pas[i+1],pas[i+2]+","+pas[i+3]);
+				}
+				
+				String[] hstg = gridArray[7].split(",");
+				HashMap<String,Integer> m7 = new HashMap<String,Integer>();
+				for(int i = 0;i< hstg.length -2; i+=3) {
+					m7.put(hstg[i]+","+hstg[i+1],Integer.parseInt(hstg[i+2]));
+				}
+				
+				TH s = new TH(m,n,x10,x11,x00, x01,capacity, xyz,m4,m5,m7);
+				boolean linkin = true;
+				
+				for (int i = 0; i < actions.length; i++) {
+				
+					switch (actions[i]) {
+					case "up":
+						linkin = s.f2();
+						break;
+					case "down":
+						linkin = s.f3();
+						break;
+					case "right":
+						linkin = s.f4();
+						break;
+					case "left":
+						linkin = s.applyLeft();
+						break;
+					case "carry":
+						linkin = s.f209();
+						break;
+					case "drop":
+						linkin = s.f220();
+						break;
+					case "fly":
+						linkin = s.f320();
+						break;
+					case "takePill":
+						linkin = s.f32();
+						break;
+					case "kill":
+						linkin = s.f100();
+						break;
+					default: linkin = false; break;
+								
+					}
+
+					if(!linkin)
+						return false;		
+					
+						
+						
+				}
+				System.out.println(s.m23 + " ," + doors);
+				System.out.println(s.m10.size() + " ," + blue);
+				return s.grace() && s.m23 == doors && s.m10.size() == blue;
+			}
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3189)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:725)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3347)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1524)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:494)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:201)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:597)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1142)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1319)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2021-11-24 19:10:51.657
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3189)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:725)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3347)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1524)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:494)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:201)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:597)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1142)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1319)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2021-11-24 19:10:51.657
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3189)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:725)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3347)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1524)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:494)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:201)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:597)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1142)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1319)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.core 4 2 2021-11-24 19:28:05.127
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+org.eclipse.core.runtime.AssertionFailedException: null argument:
+	at org.eclipse.core.runtime.Assert.isNotNull(Assert.java:88)
+	at org.eclipse.core.runtime.Assert.isNotNull(Assert.java:76)
+	at org.eclipse.jdt.ui.text.folding.DefaultJavaFoldingStructureProvider.computeCurrentStructure(DefaultJavaFoldingStructureProvider.java:1403)
+	at org.eclipse.jdt.ui.text.folding.DefaultJavaFoldingStructureProvider.update(DefaultJavaFoldingStructureProvider.java:900)
+	at org.eclipse.jdt.ui.text.folding.DefaultJavaFoldingStructureProvider.access$9(DefaultJavaFoldingStructureProvider.java:890)
+	at org.eclipse.jdt.ui.text.folding.DefaultJavaFoldingStructureProvider$ElementChangedListener.elementChanged(DefaultJavaFoldingStructureProvider.java:368)
+	at org.eclipse.jdt.internal.core.DeltaProcessor$3.run(DeltaProcessor.java:1755)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.notifyListeners(DeltaProcessor.java:1743)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.firePostChangeDelta(DeltaProcessor.java:1576)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.fire(DeltaProcessor.java:1552)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.notifyAndFire(DeltaProcessor.java:2273)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.resourceChanged(DeltaProcessor.java:2163)
+	at org.eclipse.jdt.internal.core.DeltaProcessingState.resourceChanged(DeltaProcessingState.java:478)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:381)
+	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1503)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2327)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2338)
+	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:131)
+	at org.eclipse.ui.internal.editors.text.WorkspaceOperationRunner.run(WorkspaceOperationRunner.java:76)
+	at org.eclipse.ui.internal.editors.text.WorkspaceOperationRunner.run(WorkspaceOperationRunner.java:66)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.executeOperation(TextFileDocumentProvider.java:461)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.saveDocument(TextFileDocumentProvider.java:764)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.performSave(AbstractTextEditor.java:5007)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor.performSave(CompilationUnitEditor.java:1262)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor.doSave(CompilationUnitEditor.java:1316)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$TextEditorSavable.doSave(AbstractTextEditor.java:7151)
+	at org.eclipse.ui.Saveable.doSave(Saveable.java:213)
+	at org.eclipse.ui.internal.SaveableHelper.doSaveModel(SaveableHelper.java:333)
+	at org.eclipse.ui.internal.SaveableHelper.lambda$1(SaveableHelper.java:196)
+	at org.eclipse.ui.internal.SaveableHelper.lambda$3(SaveableHelper.java:271)
+	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:436)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:352)
+	at org.eclipse.ui.internal.WorkbenchWindow.lambda$7(WorkbenchWindow.java:2345)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:74)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2343)
+	at org.eclipse.ui.internal.SaveableHelper.runProgressMonitorOperation(SaveableHelper.java:278)
+	at org.eclipse.ui.internal.SaveableHelper.runProgressMonitorOperation(SaveableHelper.java:260)
+	at org.eclipse.ui.internal.SaveableHelper.saveModels(SaveableHelper.java:207)
+	at org.eclipse.ui.internal.SaveableHelper.savePart(SaveableHelper.java:150)
+	at org.eclipse.ui.internal.WorkbenchPage.saveSaveable(WorkbenchPage.java:3820)
+	at org.eclipse.ui.internal.WorkbenchPage.saveEditor(WorkbenchPage.java:3833)
+	at org.eclipse.ui.internal.handlers.SaveHandler.execute(SaveHandler.java:82)
+	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:283)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:97)
+	at jdk.internal.reflect.GeneratedMethodAccessor50.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:319)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:253)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:173)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:156)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:488)
+	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:487)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:213)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.executeCommand(KeyBindingDispatcher.java:308)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.press(KeyBindingDispatcher.java:584)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.processKeyEvent(KeyBindingDispatcher.java:653)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.filterKeySequenceBindings(KeyBindingDispatcher.java:443)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher$KeyDownFilter.handleEvent(KeyBindingDispatcher.java:96)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1270)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1042)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1067)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1052)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1094)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1090)
+	at org.eclipse.swt.widgets.Widget.wmChar(Widget.java:1519)
+	at org.eclipse.swt.widgets.Control.WM_CHAR(Control.java:4882)
+	at org.eclipse.swt.widgets.Canvas.WM_CHAR(Canvas.java:345)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4760)
+	at org.eclipse.swt.widgets.Canvas.windowProc(Canvas.java:340)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4930)
+	at org.eclipse.swt.internal.win32.OS.CallWindowProc(Native Method)
+	at org.eclipse.swt.internal.BidiUtil.windowProc(BidiUtil.java:648)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(Native Method)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3624)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:156)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:654)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:591)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1462)
+
+!ENTRY org.eclipse.jdt.core 4 4 2021-11-24 19:28:05.129
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+org.eclipse.core.runtime.AssertionFailedException: null argument:
+	at org.eclipse.core.runtime.Assert.isNotNull(Assert.java:88)
+	at org.eclipse.core.runtime.Assert.isNotNull(Assert.java:76)
+	at org.eclipse.jdt.ui.text.folding.DefaultJavaFoldingStructureProvider.computeCurrentStructure(DefaultJavaFoldingStructureProvider.java:1403)
+	at org.eclipse.jdt.ui.text.folding.DefaultJavaFoldingStructureProvider.update(DefaultJavaFoldingStructureProvider.java:900)
+	at org.eclipse.jdt.ui.text.folding.DefaultJavaFoldingStructureProvider.access$9(DefaultJavaFoldingStructureProvider.java:890)
+	at org.eclipse.jdt.ui.text.folding.DefaultJavaFoldingStructureProvider$ElementChangedListener.elementChanged(DefaultJavaFoldingStructureProvider.java:368)
+	at org.eclipse.jdt.internal.core.DeltaProcessor$3.run(DeltaProcessor.java:1755)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.notifyListeners(DeltaProcessor.java:1743)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.firePostChangeDelta(DeltaProcessor.java:1576)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.fire(DeltaProcessor.java:1552)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.notifyAndFire(DeltaProcessor.java:2273)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.resourceChanged(DeltaProcessor.java:2163)
+	at org.eclipse.jdt.internal.core.DeltaProcessingState.resourceChanged(DeltaProcessingState.java:478)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:305)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:295)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:158)
+	at org.eclipse.core.internal.resources.Workspace.broadcastPostChange(Workspace.java:381)
+	at org.eclipse.core.internal.resources.Workspace.endOperation(Workspace.java:1503)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2327)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2338)
+	at org.eclipse.ui.actions.WorkspaceModifyOperation.run(WorkspaceModifyOperation.java:131)
+	at org.eclipse.ui.internal.editors.text.WorkspaceOperationRunner.run(WorkspaceOperationRunner.java:76)
+	at org.eclipse.ui.internal.editors.text.WorkspaceOperationRunner.run(WorkspaceOperationRunner.java:66)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.executeOperation(TextFileDocumentProvider.java:461)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.saveDocument(TextFileDocumentProvider.java:764)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.performSave(AbstractTextEditor.java:5007)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor.performSave(CompilationUnitEditor.java:1262)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor.doSave(CompilationUnitEditor.java:1316)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$TextEditorSavable.doSave(AbstractTextEditor.java:7151)
+	at org.eclipse.ui.Saveable.doSave(Saveable.java:213)
+	at org.eclipse.ui.internal.SaveableHelper.doSaveModel(SaveableHelper.java:333)
+	at org.eclipse.ui.internal.SaveableHelper.lambda$1(SaveableHelper.java:196)
+	at org.eclipse.ui.internal.SaveableHelper.lambda$3(SaveableHelper.java:271)
+	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:436)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:352)
+	at org.eclipse.ui.internal.WorkbenchWindow.lambda$7(WorkbenchWindow.java:2345)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:74)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2343)
+	at org.eclipse.ui.internal.SaveableHelper.runProgressMonitorOperation(SaveableHelper.java:278)
+	at org.eclipse.ui.internal.SaveableHelper.runProgressMonitorOperation(SaveableHelper.java:260)
+	at org.eclipse.ui.internal.SaveableHelper.saveModels(SaveableHelper.java:207)
+	at org.eclipse.ui.internal.SaveableHelper.savePart(SaveableHelper.java:150)
+	at org.eclipse.ui.internal.WorkbenchPage.saveSaveable(WorkbenchPage.java:3820)
+	at org.eclipse.ui.internal.WorkbenchPage.saveEditor(WorkbenchPage.java:3833)
+	at org.eclipse.ui.internal.handlers.SaveHandler.execute(SaveHandler.java:82)
+	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:283)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:97)
+	at jdk.internal.reflect.GeneratedMethodAccessor50.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:319)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:253)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:173)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:156)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:488)
+	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:487)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:213)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.executeCommand(KeyBindingDispatcher.java:308)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.press(KeyBindingDispatcher.java:584)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.processKeyEvent(KeyBindingDispatcher.java:653)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher.filterKeySequenceBindings(KeyBindingDispatcher.java:443)
+	at org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher$KeyDownFilter.handleEvent(KeyBindingDispatcher.java:96)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.filterEvent(Display.java:1270)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1042)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1067)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1052)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1094)
+	at org.eclipse.swt.widgets.Widget.sendKeyEvent(Widget.java:1090)
+	at org.eclipse.swt.widgets.Widget.wmChar(Widget.java:1519)
+	at org.eclipse.swt.widgets.Control.WM_CHAR(Control.java:4882)
+	at org.eclipse.swt.widgets.Canvas.WM_CHAR(Canvas.java:345)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4760)
+	at org.eclipse.swt.widgets.Canvas.windowProc(Canvas.java:340)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4930)
+	at org.eclipse.swt.internal.win32.OS.CallWindowProc(Native Method)
+	at org.eclipse.swt.internal.BidiUtil.windowProc(BidiUtil.java:648)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(Native Method)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3624)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1157)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:156)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:654)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:591)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1462)
